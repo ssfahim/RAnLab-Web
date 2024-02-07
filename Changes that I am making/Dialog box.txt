@@ -1,0 +1,97 @@
+INC255799
+
+<?php
+
+namespace App\Http\Livewire;
+
+use Livewire\Component;
+
+class AddBusinessDialog extends BusinessEditTableHeader
+{
+    public $showDialog = false;
+
+    public function showAddBusinessDialog()
+    {
+        $this->showDialog = true;
+        $this->emit('openAddBusinessDialog');
+    }
+
+    public function closeAddBusinessDialog()
+    {
+        $this->showDialog = false;
+        $this->emit('closeAddBusinessDialog');
+    }
+
+    public function render()
+    {
+        return view('livewire.add-business-dialog');
+    }
+}
+
+
+
+
+
+<!-- add-business-dialog.blade.php -->
+
+<div>
+    @if($showDialog)
+        <div id="addBusinessDialog" title="Add New Business">
+            <form>
+                <label for="region">Region:</label>
+                <select id="region" name="region">
+                    {!! generateOptions($regions) !!}
+                </select><br>
+
+                <label for="year">Year:</label>
+                <input type="text" id="year" name="year"><br>
+
+                <label for="industry">Industry:</label>
+                <select id="industry" name="industry">
+                    {!! generateOptions($industry) !!}
+                </select><br>
+
+                <label for="businessName">Business Name:</label>
+                <input type="text" id="businessName" name="businessName"><br>
+
+                <label for="employment">Employment:</label>
+                <input type="text" id="employment" name="employment"><br>
+
+                <label for="location">Location:</label>
+                <input type="text" id="location" name="location"><br>
+
+                <input type="button" value="Submit" wire:click="closeAddBusinessDialog">
+            </form>
+        </div>
+    @endif
+</div>
+
+<script>
+    // Livewire hook to open the dialog
+    document.addEventListener('livewire:load', function () {
+        Livewire.on('openAddBusinessDialog', function () {
+            $("#addBusinessDialog").dialog({
+                modal: true,
+                width: 400
+            });
+        });
+    });
+</script>
+
+
+business.blade.php
+
+
+<x-app-layout>
+    <x-slot name="header">
+        {{ __('Workforce > Business') }}
+    </x-slot>
+
+    <div class="table_outer_container">
+        <livewire:businesses-table></livewire:businesses-table>
+    </div>
+    <livewire:add-business-dialog />
+    
+</x-app-layout>
+
+

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>City Code Lookup</title>
+</head>
+<body>
+
+  <h1>City Code Lookup</h1>
+
+  <form>
+    <label for="citySelect">Select City:</label>
+    <select id="citySelect" onchange="updateCityCode()">
+      <option value="Baie Verte">Baie Verte</option>
+      <option value="Bird Cove">Bird Cove</option>
+      <option value="Bishop's Falls">Bishop's Falls</option>
+      <option value="Botwood">Botwood</option>
+    </select>
+
+    <label for="cityCode">City Code:</label>
+    <input type="text" id="cityCode" readonly>
+  </form>
+
+  <script>
+    function updateCityCode() {
+      var citySelect = document.getElementById("citySelect");
+      var cityCodeInput = document.getElementById("cityCode");
+
+      // Mapping of city names to city codes
+      var cityCodeMap = {
+        "Baie Verte": 304,
+        "Bird Cove": 331,
+        "Bishop's Falls": 208,
+        "Botwood": 210
+      };
+
+      var selectedCity = citySelect.value;
+
+      // Set the city code in the input box
+      cityCodeInput.value = cityCodeMap[selectedCity];
+    }
+  </script>
+
+</body>
+</html>
