@@ -1,0 +1,17 @@
+image: marlosoft/git-ftp
+stages:
+  - master
+
+master:
+  stage: master
+  before_script:
+    - echo "before script..."
+    - mkdir ~/.ssh
+    - echo -e "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+    - echo -e "[git-ftp]" > ~/.ssh/config
+    - chmod 600 ~/.ssh/id_rsa
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+  only:
+    - master
+  script:
+    - ssh adminblue@dev.bluepractice.ca       "cd /var/www/ranlab/master && sudo git add -A . && sudo git stash && sudo git pull origin master && cd /var/www/ranlab/master/ci && sudo chmod +x ./update-master.sh && ./update-master.sh"

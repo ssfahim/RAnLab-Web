@@ -1,0 +1,535 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/********** CUSTOM TO MOVE **********/
+
+body  {background-color: #FAFAFA;}
+
+.clear  {clear: both;}
+
+.page_container  {
+	width: 100$;
+	height: auto;
+	padding-top: 65px;
+	position: relative;
+}
+
+
+/************ REGISTRATION ************/
+
+#guest_shell  {
+	width: 467px;
+	height: auto;
+	margin: 0 auto;
+}
+
+.form_container  {
+	width: 100%;
+	height: auto;
+}
+
+.registration_intro  {
+	width: 100%;
+	height: auto;
+	text-align: center;
+	margin-bottom: 30px;
+	margin-top: 160px;
+}
+
+.registration_title  {
+	width: 100%;
+	height: auto;
+	font-weight: 700;
+	font-size: 18px;
+	margin-bottom: 12px;
+}
+
+.registration_subtitle  {
+	width: 100%;
+	height: auto;
+	font-size: 14px;
+}
+
+.form_row  {
+	width: 100%;
+	height: auto;
+	margin-bottom: 10px;
+}
+
+.form_row_split  {
+	height: auto;
+	float: left;
+}
+
+.name_split .form_row_split  {width: 48%;}
+
+.name_split .form_row_split:nth-child(1) {margin-right: 4%;}
+
+.form_section_title  {
+	width: 100%;
+	height: auto;
+	font-weight: 700;
+	font-size: 14px;
+	margin: 30px 0 8px 0;
+}
+
+.address_split .form_row_split:nth-child(1) {
+	width: 68%;
+	margin-right: 4%;
+}
+
+.address_split .form_row_split:nth-child(2) {
+	width: 28%;
+}
+
+.form_row input[type='text']  {font-size: 14px;}
+
+.register_submit_split .form_row_split  {width: 50%;}
+
+.register_submit_split .form_row_split:nth-child(1)  {text-align: left;}
+
+.register_submit_split .form_row_split:nth-child(2)  {text-align: right;}
+
+.register_submit_split .form_row_split:nth-child(2) .proceed_button  {float: right;}
+
+.proceed_button  {}
+
+
+
+
+/************ PROFILE ************/
+
+.profile_container  {
+	width: 467px;
+	height: auto;
+	margin: 0 auto;
+}
+
+.profile_container .registration_intro  {margin-top: 20px;}
+
+
+
+
+/************ NAV ************/
+
+.nav_container  {
+	width: 100%;
+	height: 65px;
+	position: fixed;
+	top: 0;
+	left: 0;
+	background-color: #C7C7C7;
+	color: #000000;
+	padding: 12px 0px;
+	z-index: 9;
+}
+
+#nav_left  {
+	width: 20%;
+	height: auto;
+	float: left;
+	font-size: 18px;
+	font-weight: 700;
+	padding-top: 7px;
+	padding-left: 30px;
+}
+
+#nav_right  {
+	width: 80%;
+	height: auto;
+	float: left;
+	padding-right: 30px;
+}
+
+#nav_right_left  {
+	width: 24px;
+	height: auto;
+	float: left;
+	padding-top: 9px;
+}
+
+#nav_right_left img  {
+	width: 100%;
+	height: auto;
+}
+
+#nav_right_right  {
+	width: 340px;
+	height: auto;
+	float: right;
+}
+
+.nav_item_container  {
+	width: auto;
+	height: auto;
+	float: right;
+	border-left: 1px solid #979797;
+}
+
+.nav_button  {
+	width: auto;
+	/*min-width: 150px;*/
+	height: auto;
+	text-align: right;
+	background-color: transparent;
+	font-size: 14px;
+	padding: 8px 24px 8px 18px;
+	position: relative;
+}
+
+.nav_button_label  {
+	width: 100%;
+	height: auto;
+}
+
+.nav_button_label img  {
+	width: 30px;
+	height: auto;
+}
+
+.nav_button_arrow  {
+	width: 20px;
+	height: auto;
+	position: absolute;
+	top: 10px;
+	right: 0;
+}
+
+.sidebar_container  {
+	/* test*/
+	width: 20%;
+	height: 100%;
+	float: left;
+	position: fixed;
+	top: 0;
+	left: 0;
+	padding-top: 65px;
+	background-color: #C7C7C7;
+	color: #000000;
+}
+
+
+
+/************ SIDEBAR ************/
+
+
+.content_container  {
+	width: 100%;
+	height: auto;
+	padding-left: 20%;
+}
+
+.sidebar_nav_column  {
+	width: 100%;
+	height: auto;
+}
+
+.sidebar_nav_column select  {
+	width: 100%;
+	font-size: 14px;
+	line-height: 14px;
+	padding: 8px;
+}
+
+.sidebar_heading  {
+	width: 100%;
+	height: auto;
+	padding: 12px 0;
+	font-weight: 700;
+	padding: 0 30px;
+	margin: 10px 0;
+}
+
+.sidebar_heading_inner  {
+	width: 100%;
+	height: auto;
+	border-bottom: 1px solid #979797;
+	padding-bottom: 10px;
+}
+
+.sidebar_heading_icon  {
+	width: 34px;
+	height: auto;
+	float: left;
+	padding-right: 10px;
+}
+
+.sidebar_heading_text  {
+	width: 80%;
+	height: auto;
+	float: left;
+	font-weight: 500;
+	color: #000000;
+}
+
+.sidebar_nav_item  {
+	width: 100%;
+	height: auto;
+}
+
+.sidebar_nav_item a  {
+	width: 100%;
+	height: auto;
+	padding: 10px 30px;
+	display: inline-block;
+	font-size: 14px;
+}
+
+.active_page  {background-color: #E7E6E6;}
+
+
+
+
+/************ CONTENT ************/
+
+.content_header  {
+	width: 100%;
+	height: auto;
+	padding: 20px;
+	-webkit-box-shadow: 0px 6px 5px -5px rgba(0,0,0,0.45); 
+	box-shadow: 0px 6px 5px -5px rgba(0,0,0,0.45);
+	display: inline-block;
+	font-size: 14px;
+	font-weight: 700;
+}
+
+.content_header .inner_header  {font-size: 14px;}
+
+.filter_panel  {
+	width: 100%;
+	height: auto;
+	background-color: #fafafa;
+	padding: 0 26px 0 4px;
+	font-size: 14px;
+}
+
+
+
+/************ DASHBOARD ************/
+
+.dashboard_row  {
+	width: 100%;
+	height: auto;
+	padding: 20px;
+}
+
+.dashboard_row_item  {
+	height: auto;
+	float: left;
+	border-radius: 10px;
+	-webkit-box-shadow: 0px 6px 5px -5px rgba(0,0,0,0.45); 
+	box-shadow: 0px 6px 5px -5px rgba(0,0,0,0.45);
+	padding: 20px;
+	background-color: #ffffff;
+}
+
+.dashboard_row_half  {width: 48%;}
+
+.dashboard_row .dashboard_row_half:nth-child(1)  {margin-right: 4%;}
+
+.dashboard_row_full  {width: 100%;}
+
+.dashboard_cta  {
+	width: 100%;
+	height: auto;
+}
+
+.dashboard_cta_left  {
+	width: 35%;
+	height: auto;
+	float: left;
+	padding: 30px 12px;
+}
+
+.dashboard_cta_left img  {
+	width: 100%;
+	height: auto;
+}
+
+.dashboard_cta_right  {
+	width: 65%;
+	height: auto;
+	float: left;
+	padding: 20px 0px;
+}
+
+.dashboard_cta_title  {
+	width: 100%;
+	height: auto;
+	font-size: 18px;
+	font-weight: 700;
+	text-align: center;
+	margin-bottom: 12px;
+}
+
+.dashboard_cta_body  {
+	width: 100%;
+	height: auto;
+	font-size: 14px;
+	text-align: center;
+	margin-bottom: 12px;
+}
+
+.dashboard_cta_btn_container  {
+	width: 100%;
+	height: auto;
+	text-align: center;
+	margin-bottom: 12px;
+}
+
+.cta_button  {
+	width: auto;
+	height: auto;
+	font-size: 14px;
+	text-align: center;
+	background-color: #e8e7e7;
+	border: 1px solid #BCBCBC;
+	cursor: pointer;
+	padding: 8px 12px;
+	border-radius: 6px;
+}
+
+.dashboard_cta_more  {
+	width: 100%;
+	height: auto;
+	font-size: 14px;
+	text-align: center;
+}
+
+
+
+/************ TABLES ************/
+
+
+.table_outer_container  {
+	width: 100%;
+	height: auto;
+}
+
+.table_shell  {
+	width: 100%;
+	height: auto;
+}
+
+.table_outer_container .navigation  {padding: 30px;}
+
+.table_inner_container  {padding: 0;}
+
+.standard_table  {
+	width: 100%;
+	height: auto;
+}
+
+.standard_table th  {
+	font-size: 14px;
+	font-weight: 700;
+	text-align: left;
+	padding: 18px 20px;
+}
+
+.standard_table thead  {
+	background-color: #ffffff;
+	-webkit-box-shadow: 5px 5px 6px -5px rgba(0,0,0,0.45); 
+	box-shadow: 5px 5px 6px -5px rgba(0,0,0,0.45);
+}
+
+.standard_table tbody tr  {
+	background-color: #fafafa;
+}
+
+.standard_table td  {
+	font-size: 14px;
+	text-align: left;
+	padding: 18px 20px;
+}
+
+.standard_table td input[type='text']  {
+	width: 80%;
+	padding: 2px;
+	font-size: 14px;
+	line-height: 14px;
+}
+
+.filter_panel  {
+	width: 100%;
+	height: 66px;
+	padding: 20px;
+}
+
+.filter_panel select  {
+	padding: 0 17px 0 4px;
+	background-position: right 2px center !important;
+	background-size: 1em !important;
+	margin-right: 8px;
+	border-radius: 6px;
+	font-size: 14px;
+	cursor: pointer;
+}
+
+.update_panel  {
+	width: 50%;
+	height: 66px;
+	margin-top: -66px;
+	text-align: right;
+	padding: 20px;
+	float: right;
+}
+
+.update_panel input[type='button'] {
+	width: auto;
+	height: auto;
+	background-color: #E8E7E7;
+	padding: 4px 8px;
+	font-size: 14px;
+	border-radius: 6px;
+	border: 1px solid #BCBCBC;
+	cursor: pointer;
+}
+
+.multi_table_panel  {
+	border-bottom: 1px solid #BCBCBC;
+	margin-bottom: 40px;
+}
+
+.tbl_pending_requests  {}
+
+.tbl_pending_requests td  {cursor: pointer;}
+
+.tbl_pending_requests tr:hover  {background-color: #ffffff;}
+
+.tbl_reviewed_requests  {}
+
+.review_item  {
+	width: 100%;
+	height: auto;
+	padding: 20px;
+}
+
+.review_title  {
+	width: 100%;
+	height: auto;
+}
+
+.review_title_line  {
+	width: 100%;
+	height: auto;
+}
+
+.review_title_line_label  {
+	width: auto;
+	height: auto;
+	float: left;
+	font-weight: 700;
+}
+
+.review_title_line_content  {
+	width: auto;
+	height: auto;
+	float: left;
+}
+			
+.review_body  {
+	width: 100%;
+	height: auto;
+}
