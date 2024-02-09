@@ -15,6 +15,7 @@ jobs:
 
       - name: Install PHP dependencies
         run: |
+          cd RAnlab-master
           composer install --no-dev --optimize-autoloader
 
       - name: Install Node.js and npm
@@ -24,6 +25,7 @@ jobs:
 
       - name: Install npm dependencies and build assets
         run: |
+          cd RAnlab-master
           npm install
           npm run production  # Adjust the script as needed
 
@@ -34,13 +36,18 @@ jobs:
           db: ranlab  # Change the database name as needed
 
       - name: Run database migrations
-        run: php artisan migrate --force
+        run: |
+          cd RAnlab-master
+          php artisan migrate --force
 
       - name: Seed database
-        run: php artisan db:seed --force
+        run: |
+          cd RAnlab-master
+          php artisan db:seed --force
 
       - name: Start Laravel server
         run: |
+          cd RAnlab-master
           php artisan serve --port ${{ env.PORT }} --host 0.0.0.0 &
 
       - name: Deploy to Cloudflare Pages
