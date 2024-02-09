@@ -32,7 +32,19 @@ jobs:
         with:
           mysql-version: '8.0'
           root-password: ${{ secrets.MYSQL_ROOT_PASSWORD }}
-          db: my_database  # Change the database name as needed
+          db: ranlab  # Change the database name as needed
 
       - name: Run database migrations
-        run: php 
+        run: php artisan migrate --force
+
+      - name: Seed database
+        run: php artisan db:seed --force
+
+      - name: Start Laravel server
+        run: php artisan serve --port ${{ env.PORT }} --host 0.0.0.0 &
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/ghaction-pages@main
+        with:
+          site-id: ${{ secrets.CLOUDFLARE_PAGES_SITE_ID }}
+          api-token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
