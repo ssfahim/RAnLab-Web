@@ -31,7 +31,6 @@ jobs:
         uses: crazy-max/ghaction-mysql@v1
         with:
           mysql-version: '8.0'
-          root-password: ${{ secrets.MYSQL_ROOT_PASSWORD }}
           db: ranlab  # Change the database name as needed
 
       - name: Run database migrations
@@ -41,7 +40,8 @@ jobs:
         run: php artisan db:seed --force
 
       - name: Start Laravel server
-        run: php artisan serve --port ${{ env.PORT }} --host 0.0.0.0 &
+        run: |
+          php artisan serve --port ${{ env.PORT }} --host 0.0.0.0 &
 
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/ghaction-pages@main
