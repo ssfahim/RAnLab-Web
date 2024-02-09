@@ -15,7 +15,7 @@ jobs:
 
       - name: Install PHP dependencies
         run: |
-          cd RAnLab-Web/RAnlab-master
+          cd "RAnLab-Web/RAnlab-master"
           composer install --no-dev --optimize-autoloader
 
       - name: Install Node.js and npm
