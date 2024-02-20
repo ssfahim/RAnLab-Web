@@ -23,6 +23,8 @@ class Business extends Model
         'name',
         'employment',
         'location',
+        'latitude',
+        'longitude',
         'is_master',
         'master_id',
         'is_draft',

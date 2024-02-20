@@ -1,0 +1,493 @@
+@php
+    $regions = [
+        "Baie Verte",
+        "Bird Cove",
+        "Bishop's Falls",
+        "Botwood",
+        "Conche",
+        "Corner Brook",
+        "Cox's Cove",
+        "Deer Lake",
+        "Flower's Cove",
+        "Grand Falls-Windsor",
+        "Hughes Brook",
+        "Humber Arm South",
+        "Happy Valley-Goose Bay",
+        "Irishtown-Summerside",
+        "Lark Harbour",
+        "Massey Drive",
+        "McIvers",
+        "Meadows",
+        "Mount Moriah",
+        "Peterview",
+        "Roddickton-Bide Arm",
+        "Springdale",
+        "St. Anthony",
+        "St. Lunaire-Griquet",
+        "Steady Brook",
+        "York Harbour",
+        "Labrador City",
+        "Wabush"
+    ];
+
+    $years = [2019,2020,2021,2022,2023];
+    
+    $industry = [
+        "Sporting goods, hobby, book and music stores",
+        "Personal care services and other personal services",
+        "Building material and garden equipment and supplies dealers",
+        "Food and beverage stores",
+        "Furniture and home furnishings stores",
+        "Electronics and appliance stores",
+        "Traveller accommodation",
+        "Construction",
+        "Motor vehicle and parts dealers",
+        "Food services and drinking places",
+        "Amusement, recreation, performing arts, spectator sports and related industries, and heritage institutions",
+        "Automotive repair and maintenance",
+        "Clothing and clothing accessories stores",
+        "Ambulatory health care services",
+        "Gasoline stations",
+        "Health and personal care stores",
+        "Miscellaneous store retailers",
+        "Funeral services",
+        "General merchandise stores",
+        "Waste management and remediation services",
+        "Accounting, tax preparation, bookkeeping and payroll services",
+        "Copper, nickel, lead and zinc ore mining",
+        "Taxi and limousine service",
+        "Agencies, brokerages and other insurance related activities",
+        "Local, municipal and regional public administration",
+        "Personal and household goods, and building material and supplies wholesaler-distributors",
+        "Provincial and territorial public administration",
+        "Household and institutional furniture and kitchen cabinet manufacturing",
+        "Social assistance",
+        "RV (recreational vehicle) parks, recreational camps, and rooming and boarding houses",
+        "Lessors of real estate and financial investment services, funds and other financial vehicles",
+        "Crop and animal production",
+        "Other chemical product manufacturing",
+        "Grant-making, civic, and professional and similar organizations",
+        "Printing and related support activities",
+        "Plastics and rubber products manufacturing",
+        "Nursing and residential care facilities",
+        "Advertising, public relations, and related services",
+        "Banking and other depository credit intermediation",
+        "Repair and maintenance (except automotive)",
+        "Legal services",
+        "Petroleum and coal product manufacturing (except petroleum refineries)",
+        "Employment services and management, scientific and technical consulting services",
+        "Postal service",
+        "Religious organizations",
+        "Miscellaneous merchant wholesalers",
+        "Elementary and secondary schools plus other educational services",
+        "Community colleges and C.E.G.E.P.s",
+        "Architectural, engineering and related services",
+        "Stone mining and quarrying",
+        "Cement and concrete product manufacturing",
+        "Machinery, equipment and supplies merchant wholesalers",
+        "Seafood product preparation and packaging",
+        "Breweries",
+        "Activities related to credit intermediation",
+        "Transit and ground passenger transportation",
+        "Non-depository credit intermediation",
+        "Truck transportation",
+        "Computer systems design and related services",
+        "Support activities for transportation",
+        "Cutlery, hand tools and other fabricated metal product manufacturing",
+        "Pulp, paper and paperboard mills",
+        "Food, beverage and tobacco merchant wholesalers",
+        "Services to buildings and dwellings",
+        "Non-store retailers",
+        "Automotive equipment rental and leasing",
+        "Other professional, scientific and technical services",
+        "Investigation and security services",
+        "Travel arrangement and reservation services",
+        "Non-metallic mineral product manufacturing (except cement and concrete products)",
+        "Telecommunications",
+        "Specialized design services",
+        "Machine shops, turned product, and screw, nut and bolt manufacturing",
+        "Gambling industries",
+        "Dry cleaning and laundry services",
+        "Local credit unions",
+        "Support activities for mining, and oil and gas extraction",
+        "Couriers and messengers",
+        "Aboriginal public administration",
+        "Offices of real estate agents and brokers and activities related to real estate",
+        "Dairy product manufacturing",
+        "Other miscellaneous manufacturing",
+        "Bakeries and tortilla manufacturing",
+        "Rental and leasing services (except automotive equipment)",
+        "Sand, gravel, clay, and ceramic and refractory minerals mining and quarrying",
+        "Air transportation",
+        "Other wood product manufacturing",
+        "Management of companies and enterprises",
+        "Forestry and logging",
+        "Soap, cleaning compound and toilet preparation manufacturing",
+        "Unclassified",
+        "Business support services",
+        "Electric power generation, transmission and distribution",
+        "Newspaper, periodical, book, directory, and software publishers, sound recording industries, and other information services",
+        "Meat product manufacturing",
+        "Office administrative services",
+        "Other federal government services (except defence)",
+        "Other metal ore mining",
+        "Veneer, plywood and engineered wood product manufacturing",
+        "Data processing, hosting, and related services",
+        "Facilities and other support services",
+        "Universities",
+        "Radio and television broadcasting",
+        "Basic chemical manufacturing",
+        "Water transportation",
+        "Warehousing and storage",
+        "N/A",
+        "Hospitals",
+        "Ship and boat building",
+        "Textile and textile product mills, and clothing and leather and allied product manufacturing",
+        "Fishing, hunting and trapping",
+        "Soft drink and ice manufacturing",
+        "Iron ore mining",
+        "Motion picture and video industries (except exhibition)",
+        "Rail transportation"
+    ];
+    $employee = [0,1,2,3,4,5,6,7,8,9];
+@endphp
+
+
+
+
+
+<select id="regionSelect">
+    <option value="0" @if(Session::get('regionId') === 0) selected @endif>
+        Select Region (Admin)
+    </option>
+    @php
+        $industry = [
+        "Sporting goods, hobby, book and music stores",
+        "Personal care services and other personal services",
+        "Building material and garden equipment and supplies dealers",
+        "Food and beverage stores",
+        "Furniture and home furnishings stores",
+        "Electronics and appliance stores",
+        "Traveller accommodation",
+        "Construction",
+        "Motor vehicle and parts dealers",
+        "Food services and drinking places",
+        "Amusement, recreation, performing arts, spectator sports and related industries, and heritage institutions",
+        "Automotive repair and maintenance",
+        "Clothing and clothing accessories stores",
+        "Ambulatory health care services",
+        "Gasoline stations",
+        "Health and personal care stores",
+        "Miscellaneous store retailers",
+        "Funeral services",
+        "General merchandise stores",
+        "Waste management and remediation services",
+        "Accounting, tax preparation, bookkeeping and payroll services",
+        "Copper, nickel, lead and zinc ore mining",
+        "Taxi and limousine service",
+        "Agencies, brokerages and other insurance related activities",
+        "Local, municipal and regional public administration",
+        "Personal and household goods, and building material and supplies wholesaler-distributors",
+        "Provincial and territorial public administration",
+        "Household and institutional furniture and kitchen cabinet manufacturing",
+        "Social assistance",
+        "RV (recreational vehicle) parks, recreational camps, and rooming and boarding houses",
+        "Lessors of real estate and financial investment services, funds and other financial vehicles",
+        "Crop and animal production",
+        "Other chemical product manufacturing",
+        "Grant-making, civic, and professional and similar organizations",
+        "Printing and related support activities",
+        "Plastics and rubber products manufacturing",
+        "Nursing and residential care facilities",
+        "Advertising, public relations, and related services",
+        "Banking and other depository credit intermediation",
+        "Repair and maintenance (except automotive)",
+        "Legal services",
+        "Petroleum and coal product manufacturing (except petroleum refineries)",
+        "Employment services and management, scientific and technical consulting services",
+        "Postal service",
+        "Religious organizations",
+        "Miscellaneous merchant wholesalers",
+        "Elementary and secondary schools plus other educational services",
+        "Community colleges and C.E.G.E.P.s",
+        "Architectural, engineering and related services",
+        "Stone mining and quarrying",
+        "Cement and concrete product manufacturing",
+        "Machinery, equipment and supplies merchant wholesalers",
+        "Seafood product preparation and packaging",
+        "Breweries",
+        "Activities related to credit intermediation",
+        "Transit and ground passenger transportation",
+        "Non-depository credit intermediation",
+        "Truck transportation",
+        "Computer systems design and related services",
+        "Support activities for transportation",
+        "Cutlery, hand tools and other fabricated metal product manufacturing",
+        "Pulp, paper and paperboard mills",
+        "Food, beverage and tobacco merchant wholesalers",
+        "Services to buildings and dwellings",
+        "Non-store retailers",
+        "Automotive equipment rental and leasing",
+        "Other professional, scientific and technical services",
+        "Investigation and security services",
+        "Travel arrangement and reservation services",
+        "Non-metallic mineral product manufacturing (except cement and concrete products)",
+        "Telecommunications",
+        "Specialized design services",
+        "Machine shops, turned product, and screw, nut and bolt manufacturing",
+        "Gambling industries",
+        "Dry cleaning and laundry services",
+        "Local credit unions",
+        "Support activities for mining, and oil and gas extraction",
+        "Couriers and messengers",
+        "Aboriginal public administration",
+        "Offices of real estate agents and brokers and activities related to real estate",
+        "Dairy product manufacturing",
+        "Other miscellaneous manufacturing",
+        "Bakeries and tortilla manufacturing",
+        "Rental and leasing services (except automotive equipment)",
+        "Sand, gravel, clay, and ceramic and refractory minerals mining and quarrying",
+        "Air transportation",
+        "Other wood product manufacturing",
+        "Management of companies and enterprises",
+        "Forestry and logging",
+        "Soap, cleaning compound and toilet preparation manufacturing",
+        "Unclassified",
+        "Business support services",
+        "Electric power generation, transmission and distribution",
+        "Newspaper, periodical, book, directory, and software publishers, sound recording industries, and other information services",
+        "Meat product manufacturing",
+        "Office administrative services",
+        "Other federal government services (except defence)",
+        "Other metal ore mining",
+        "Veneer, plywood and engineered wood product manufacturing",
+        "Data processing, hosting, and related services",
+        "Facilities and other support services",
+        "Universities",
+        "Radio and television broadcasting",
+        "Basic chemical manufacturing",
+        "Water transportation",
+        "Warehousing and storage",
+        "N/A",
+        "Hospitals",
+        "Ship and boat building",
+        "Textile and textile product mills, and clothing and leather and allied product manufacturing",
+        "Fishing, hunting and trapping",
+        "Soft drink and ice manufacturing",
+        "Iron ore mining",
+        "Motion picture and video industries (except exhibition)",
+        "Rail transportation"
+    ];
+    @endphp
+    @foreach($industry as $values)
+        <option value="{{ $values }}">
+            {{ $values }}
+        </option>
+    @endforeach
+</select>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<td>
+    {{-- <input type="text" id="{{ $column->key }}" placeholder="{{ $column->label }}"/> --}}
+    <select id="regionSelect">
+        <option value="0">
+            Select Region (Admin)
+        </option>
+        @php
+            $regions = [
+                "Baie Verte",
+                "Bird Cove",
+                "Bishop's Falls",
+                "Botwood",
+                "Conche",
+                "Corner Brook",
+                "Cox's Cove",
+                "Deer Lake",
+                "Flower's Cove",
+                "Grand Falls-Windsor",
+                "Hughes Brook",
+                "Humber Arm South",
+                "Happy Valley-Goose Bay",
+                "Irishtown-Summerside",
+                "Lark Harbour",
+                "Massey Drive",
+                "McIvers",
+                "Meadows",
+                "Mount Moriah",
+                "Peterview",
+                "Roddickton-Bide Arm",
+                "Springdale",
+                "St. Anthony",
+                "St. Lunaire-Griquet",
+                "Steady Brook",
+                "York Harbour",
+                "Labrador City",
+                "Wabush"
+            ];
+        @endphp
+        @foreach($regions as $value)
+            <option value="{{ $value }}">
+                {{ $value }}
+            </option>
+        @endforeach
+    </select>
+    
+</td>
+<td>
+    <input type="text"  placeholder="Year"/>
+</td>
+
+<td style="width: 50px">
+    <select id="region">
+        <option value="0">
+            Select Region (Admin)
+        </option>
+        @php
+            $industry = [
+            "Sporting goods, hobby, book and music stores",
+            "Personal care services and other personal services",
+            "Building material and garden equipment and supplies dealers",
+            "Food and beverage stores",
+            "Furniture and home furnishings stores",
+            "Electronics and appliance stores",
+            "Traveller accommodation",
+            "Construction",
+            "Motor vehicle and parts dealers",
+            "Food services and drinking places",
+            "Amusement, recreation, performing arts, spectator sports and related industries, and heritage institutions",
+            "Automotive repair and maintenance",
+            "Clothing and clothing accessories stores",
+            "Ambulatory health care services",
+            "Gasoline stations",
+            "Health and personal care stores",
+            "Miscellaneous store retailers",
+            "Funeral services",
+            "General merchandise stores",
+            "Waste management and remediation services",
+            "Accounting, tax preparation, bookkeeping and payroll services",
+            "Copper, nickel, lead and zinc ore mining",
+            "Taxi and limousine service",
+            "Agencies, brokerages and other insurance related activities",
+            "Local, municipal and regional public administration",
+            "Personal and household goods, and building material and supplies wholesaler-distributors",
+            "Provincial and territorial public administration",
+            "Household and institutional furniture and kitchen cabinet manufacturing",
+            "Social assistance",
+            "RV (recreational vehicle) parks, recreational camps, and rooming and boarding houses",
+            "Lessors of real estate and financial investment services, funds and other financial vehicles",
+            "Crop and animal production",
+            "Other chemical product manufacturing",
+            "Grant-making, civic, and professional and similar organizations",
+            "Printing and related support activities",
+            "Plastics and rubber products manufacturing",
+            "Nursing and residential care facilities",
+            "Advertising, public relations, and related services",
+            "Banking and other depository credit intermediation",
+            "Repair and maintenance (except automotive)",
+            "Legal services",
+            "Petroleum and coal product manufacturing (except petroleum refineries)",
+            "Employment services and management, scientific and technical consulting services",
+            "Postal service",
+            "Religious organizations",
+            "Miscellaneous merchant wholesalers",
+            "Elementary and secondary schools plus other educational services",
+            "Community colleges and C.E.G.E.P.s",
+            "Architectural, engineering and related services",
+            "Stone mining and quarrying",
+            "Cement and concrete product manufacturing",
+            "Machinery, equipment and supplies merchant wholesalers",
+            "Seafood product preparation and packaging",
+            "Breweries",
+            "Activities related to credit intermediation",
+            "Transit and ground passenger transportation",
+            "Non-depository credit intermediation",
+            "Truck transportation",
+            "Computer systems design and related services",
+            "Support activities for transportation",
+            "Cutlery, hand tools and other fabricated metal product manufacturing",
+            "Pulp, paper and paperboard mills",
+            "Food, beverage and tobacco merchant wholesalers",
+            "Services to buildings and dwellings",
+            "Non-store retailers",
+            "Automotive equipment rental and leasing",
+            "Other professional, scientific and technical services",
+            "Investigation and security services",
+            "Travel arrangement and reservation services",
+            "Non-metallic mineral product manufacturing (except cement and concrete products)",
+            "Telecommunications",
+            "Specialized design services",
+            "Machine shops, turned product, and screw, nut and bolt manufacturing",
+            "Gambling industries",
+            "Dry cleaning and laundry services",
+            "Local credit unions",
+            "Support activities for mining, and oil and gas extraction",
+            "Couriers and messengers",
+            "Aboriginal public administration",
+            "Offices of real estate agents and brokers and activities related to real estate",
+            "Dairy product manufacturing",
+            "Other miscellaneous manufacturing",
+            "Bakeries and tortilla manufacturing",
+            "Rental and leasing services (except automotive equipment)",
+            "Sand, gravel, clay, and ceramic and refractory minerals mining and quarrying",
+            "Air transportation",
+            "Other wood product manufacturing",
+            "Management of companies and enterprises",
+            "Forestry and logging",
+            "Soap, cleaning compound and toilet preparation manufacturing",
+            "Unclassified",
+            "Business support services",
+            "Electric power generation, transmission and distribution",
+            "Newspaper, periodical, book, directory, and software publishers, sound recording industries, and other information services",
+            "Meat product manufacturing",
+            "Office administrative services",
+            "Other federal government services (except defence)",
+            "Other metal ore mining",
+            "Veneer, plywood and engineered wood product manufacturing",
+            "Data processing, hosting, and related services",
+            "Facilities and other support services",
+            "Universities",
+            "Radio and television broadcasting",
+            "Basic chemical manufacturing",
+            "Water transportation",
+            "Warehousing and storage",
+            "N/A",
+            "Hospitals",
+            "Ship and boat building",
+            "Textile and textile product mills, and clothing and leather and allied product manufacturing",
+            "Fishing, hunting and trapping",
+            "Soft drink and ice manufacturing",
+            "Iron ore mining",
+            "Motion picture and video industries (except exhibition)",
+            "Rail transportation"
+        ];
+        @endphp
+        @foreach($industry as $values)
+            <option value="{{ $values }}">
+                {{ $values }}
+            </option>
+        @endforeach
+    </select>
+</td>
+
+<td>
+    <input type="text"  placeholder="Business Name"/>
+</td>
+
+<td>
+    <input type="text"  placeholder="Employment"/>
+</td>
+
+<td>
+    <input type="text"  placeholder="Location"/>
+</td>

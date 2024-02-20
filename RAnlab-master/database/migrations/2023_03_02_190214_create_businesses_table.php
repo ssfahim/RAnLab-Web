@@ -22,6 +22,8 @@ return new class extends Migration
             $table->string('name');
             $table->integer('employment');
             $table->string('location');
+            $table->string('latitude');
+            $table->string('longitude');
             $table->boolean('is_master')->default(true);
             $table->foreignId('master_id')->nullable();
             $table->boolean('is_draft')->default(false);

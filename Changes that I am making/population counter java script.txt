@@ -1,0 +1,50 @@
+document.addEventListener("DOMContentLoaded", function() {
+    const counters = document.querySelectorAll('.counter');
+
+    counters.forEach(counter => {
+        const target = +counter.dataset.target;
+        const duration = 2000; // Duration in milliseconds
+    
+        const updateCounter = () => {
+            counter.innerText = '0';
+            const increment = target / (duration / 10); // Increment value for each iteration
+            const currentCount = +counter.innerText;
+            
+            if (currentCount < target) {
+                counter.innerText = Math.ceil(currentCount + increment);
+                setTimeout(updateCounter, 10); // Update every 10 milliseconds for smooth animation
+            } else {
+                counter.innerText = target; // Set final value
+            }
+        };
+
+        const tar = +counter.dataset.tar;
+    
+        const update = () => {
+            counter.innerText = '0';
+            const increment = tar / (duration / 10); // Increment value for each iteration
+            const currentCount = +counter.innerText;
+            
+            if (currentCount < tar) {
+                counter.innerText = Math.ceil(currentCount + increment);
+                setTimeout(update, 10); // Update every 10 milliseconds for smooth animation
+            } else {
+                counter.innerText = tar; // Set final value
+            }
+        };
+
+        // Choose which update function to use based on data attributes
+        if (target) {
+            updateCounter();
+        } else if (tar) {
+            update();
+        }
+
+        // Change background color based on the value
+        if (target < 0 || tar < 0) {
+            counter.style.backgroundColor = 'red';
+        } else {
+            counter.style.backgroundColor = 'green';
+        }
+    });
+});

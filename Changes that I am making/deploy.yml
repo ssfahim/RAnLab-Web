@@ -1,0 +1,38 @@
+name: Deploy to Cloudflare Pages
+
+on:
+  push:
+    branches:
+      - main  # Adjust branch name as needed
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install PHP dependencies
+        run: |
+          composer install --no-dev --optimize-autoloader
+
+      - name: Install Node.js and npm
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Install npm dependencies and build assets
+        run: |
+          npm install
+          npm run production  # Adjust the script as needed
+
+      - name: Set up MySQL
+        uses: crazy-max/ghaction-mysql@v1
+        with:
+          mysql-version: '8.0'
+          root-password: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+          db: my_database  # Change the database name as needed
+
+      - name: Run database migrations
+        run: php 

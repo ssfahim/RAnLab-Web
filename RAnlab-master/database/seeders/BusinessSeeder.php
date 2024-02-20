@@ -158,6 +158,8 @@ class BusinessSeeder extends Seeder
         $business->industry = $data[3];
         $business->employment = $data[4] === 'N/A' ? 0 : $data[4];
         $business->location = $data[5].', '.$data[6];
+        $business->latitude = $data[5];
+        $business->longitude = $data[6];
         $business->is_master = true;
         $business->is_draft = false;
 

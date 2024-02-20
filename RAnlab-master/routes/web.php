@@ -99,11 +99,27 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     
-    Route::get('/', [DashboardController::class,'index'])->name('index');
+    // Route::get('/', [DashboardController::class,'index'])->name('index');
+
+    Route::get('/', function () {
+        return redirect()->route('index', ['city' => "St. John's"]);
+    });
 
     Route::get('/dashboard', [DashboardController::class,'index'])->name('index');
 
-    Route::get('/dashboard/{regionId}', [DashboardController::class,'dashboard']);
+    // Route::get('/dashboard/{city}', [DashboardController::class, 'dashboard'])->name('dashboard');
+
+    // Route::post('/fetch-city-data', [DashboardController::class, 'fetchCityData'])->name('fetchCityData');
+
+    // Route::get('/get-city-data', function (Request $request) {
+    //     $city = $request->query('city');
+    //     $cityData = Dashboard::where('city', $city)->first(); // Assuming 'city' is the column name in your Dashboard model
+    
+    //     return response()->json($cityData);
+    // });
+    
+
+
 
     Route::post('/selectRegion/{regionId}', [RegionSelectController::class,'setRegion']);
 
