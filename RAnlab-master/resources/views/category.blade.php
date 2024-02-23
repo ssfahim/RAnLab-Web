@@ -29,13 +29,15 @@
                         <td>{{$item->business}}</td>
                         <td>{{$item->employee}}</td>
                         <td><a href="{{$item->location}}" target="_blank">{{$item->location}}</a></td>
+                        {{-- <td>{{$item->location}}</td>
+                        <td>{{$item->location}}</td> --}}
                         {{-- <td><a href="{!! $item->location !!}" target="_blank">Click here to view location</a></td> --}}
                         <td>
                             <a onclick="return confirm('Are you sure to reject!')" 
                             class="btn btn-danger" href="{{url('delete',$item->id)}}" style="background-color: brown;">Reject</a>
                             
                             <a onclick="return confirm('Are you sure to accept!')" 
-                            class="btn btn-success" href="{{url('accept',$item->id)}}" style="background-color: green;">Accept</a>
+                            class="btn btn-success" href="{{url('accept',$item->id)}}" style="background-color: green;">Accept</a> {{-- this accept is in the ReviewController --}}
                     
                             <a class="btn btn-primary" href="{{url('edit_data',$item->id)}}" style="background-color: blue;">Edit</a>
                         </td>

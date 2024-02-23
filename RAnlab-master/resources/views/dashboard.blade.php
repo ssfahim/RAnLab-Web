@@ -106,30 +106,11 @@
 @endphp
 <div class="dashboard_row">
     <div class="dashboard_row_half dashboard_row_item">
-        <form id="city-form" method="GET">
-            @csrf
-            <select id="city" name="city">
-                <option value="" {{ $selectedCity ? '' : 'selected' }}>Select a city</option>
-                @foreach($cities as $city)
-                    <option value="{{ $city }}" {{ $selectedCity == $city ? 'selected' : '' }}>{{ $city }}</option>
-                @endforeach
-            </select>
-        </form>
-
         @if($cityData)
             <div id="city-data">
                 <h3 style="font: 800 40px monospace;">{{ $selectedCity }}</h3><br>
                 <!-- Display city data here -->
-                @foreach($cityData as $data)
-
-                    {{-- <div class="container" style=" position: relative;">
-                        <div class="counter" data-target="{{$data->Population_2021}}" style="font: 800 40px monospace; padding: 2rem; margin-bottom: 1rem; text-align: center; border: 2px solid black; width: 150px; display: inline-block;"></div>
-                        <div class="counter" data-target="{{$data->Population_2016}}" style="font: 800 40px monospace; padding: 2rem; margin-bottom: 1rem; text-align: center; border: 2px solid black; width: 150px; display: inline-block; margin-right: 1rem;"></div>
-                        <div class="counter" data-target="{{$data->Population_percentage_change_2016_to_2021}}" style="font: 800 40px monospace; padding: 2rem; margin-bottom: 1rem; text-align: center; border: 2px solid black; width: 150px; display: inline-block;"></div>
-                    </div> --}}
-                    
-                    
-                    <table style="display: flex;
+                <table style="display: flex;
                     /* width: 80%; */
                     flex-direction: column;
                     align-items: center;
@@ -139,22 +120,19 @@
                     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);">
                         <tr>
                             <td>
-                                <div class="counter" data-target="{{$data->Population_2021}}" style="font: 800 40px monospace; padding: 2rem; margin-bottom: 1rem; text-align: center; width: 150px; display: inline-block;"></div>
+                                <div class="counter" data-target="{{$Population_2021}}" style="font: 800 40px monospace; padding: 2rem; margin-bottom: 1rem; text-align: center; width: 150px; display: inline-block;"></div>
                             </td>
                             <td rowspan=4>
-                                <div style="border: 2px solid black; align-items: center;">
+                                <div style="border: 2px solid black; ">
                                     <div class="counter-container" style="font: 800 40px monospace; padding: 2rem; margin-bottom: 1rem; text-align: center; width: 140px; display: flex; align-items: center;">
-                                        <div class="counters" data-target="{{$data->Population_percentage_change_2016_to_2021}}" style="margin-right: 10px;"></div>
+                                        <div class="counters" data-target="{{$Population_percentage_change_2016_to_2021}}" style="margin-right: 10px;"></div>
                                         <img class="arrow-icon" src="" alt="" style="width: 35px; height: auto;">
                                     </div>
                                     <div style="font: 800 20px monospace; text-align:center">
                                         Population <br>percentage change
                                     </div>
                                 </div>
-                                
-                                
                             </td>
-                            
                         </tr>
                         <tr>
                             <td colspan="1" style="font: 800 20px monospace;">
@@ -163,7 +141,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <div class="counter" data-target="{{$data->Population_2016}}" style="font: 800 40px monospace; padding: 2rem; margin-bottom: 1rem; text-align: center; width: 150px; display: inline-block; margin-right: 1rem;"></div>
+                                <div class="counter" data-target="{{$Population_2016}}" style="font: 800 40px monospace; padding: 2rem; margin-bottom: 1rem; text-align: center; width: 150px; display: inline-block; margin-right: 1rem;"></div>
                             </td>
                         </tr>
                         <tr>
@@ -173,46 +151,26 @@
                         </tr>
                         
                     </table>
-                @endforeach
             </div>
         @endif
     </div>
 
 
-    {{-- <div class="dashboard_row"> --}}
-    	<!-- Births and Deaths Chart -->
-    <div class="dashboard_row_half dashboard_row_item">
-
-        {{-- <form id="city-form" method="GET">
-            @csrf
-            <select id="city" name="city">
-                <option value="" {{ $selectedCity ? '' : 'selected' }}>Select a city</option>
-                @foreach($cities as $city)
-                    <option value="{{ $city }}" {{ $selectedCity == $city ? 'selected' : '' }}>{{ $city }}</option>
-                @endforeach
-            </select>
-        </form> --}}
-
-        @if($cityData)
+    <!-- Births and Deaths Chart -->
+    <div class="dashboard_row_half dashboard_row_item">@if($cityData)
             <div id="city-data">
                 <h3 style="font: 800 40px monospace;">{{ $selectedCity }}</h3><br>
             {{ $birthChart->container() }}
         @endif
     </div><!--DASHBOARD_ROW_FULL-->
-
-
     <div class="clear"></div><!--CLEAR-->
-    {{-- </div><!--DASHBOARD_ROW--> --}}
 </div>
 
 <div class="dashboard_row">
-    <!-- Births and Deaths Chart -->
     <div class="dashboard_row_full dashboard_row_item">
         <b>Businesses in Newfoundland and Labrador</b>
         <div id="map"></div>
     </div><!--DASHBOARD_ROW_FULL-->
-
-
     <div class="clear"></div><!--CLEAR-->
 </div>
 
@@ -228,23 +186,6 @@
 
 
 <script>
-
-/// -------------------- This part is for dropdown selection change and page reload -----------------------------
-    document.getElementById('city').addEventListener('change', function() {
-        document.getElementById('city-form').submit(); // Submit the form when a city is selected
-    });
-
-    // When the page loads, if a city is selected, hide the "Select a city" option
-    window.addEventListener('DOMContentLoaded', function() {
-        var selectedCity = "{{ $selectedCity }}";
-        if (selectedCity) {
-            var selectElement = document.getElementById('city');
-            var selectOption = selectElement.querySelector('option[value=""]');
-            if (selectOption) {
-                selectOption.style.display = 'none';
-            }
-        }
-    });
 /// ------------------------  This part is for the counter change----------------------------------
     document.addEventListener("DOMContentLoaded", function() {
     const counters = document.querySelectorAll('.counter');
@@ -335,7 +276,7 @@ Plotly.newPlot('map', [{
         lon: [],
         mode: 'markers',
         marker: {
-            size: 6,
+            size: 9,
             color: 'rgb(0, 0, 255)',
         },
         text: [],

@@ -12,59 +12,66 @@ class DashboardController extends Controller
 {
 
     public function index(Request $request, LarapexChart $chart){
+
+        $regionId = Session::has('regionId') ? Session::get('regionId') : 91;
+        $Population_2021 = 0;
+        $Population_2016 = 0;
+        $Population_percentage_change_2016_to_2021 = 0;
+
+        if($regionId == 0){
+            $regionId = 91;
+            $cityData = Dashboard::where('CSDID', $regionId)->get();
+            foreach ($cityData as $city) {
+                $Population_2021 = $city->Population_2021;
+                $Population_2016 = $city->Population_2016;
+                $Population_percentage_change_2016_to_2021 = $city->Population_percentage_change_2016_to_2021;
+            }
+        }
+        else {
+            $cityData = Dashboard::where('CSDID', $regionId)->get();
+            foreach ($cityData as $city) {
+                $Population_2021 = $city->Population_2021;
+                $Population_2016 = $city->Population_2016;
+                $Population_percentage_change_2016_to_2021 = $city->Population_percentage_change_2016_to_2021;
+            }
+        }
+
         $businesses = Business::all();
 
         $data = Dashboard::all();
-        // dd($data);
         $cities = Dashboard::distinct()->orderBy('CSDTxt')->pluck('CSDTxt');
         
-        $selectedCity = $request->input('city');
-        // // dd($selectedCity);
-        
-        $cityData = null;
-    
-        if ($selectedCity) {
-            $cityData = Dashboard::where('CSDTxt', $selectedCity)->get();
-        }
-
         // $selectedCity = $request->input('city');
-
-        // If no city is selected, default to "Deer Lake"
+        $selectedCity = null;
+        foreach ($cityData as $city) {
+            $selectedCity = $city->CSDTxt;
+        }
         if (!$selectedCity) {
-            $selectedCity = "Deer Lake";
+            $selectedCity = "St. John's";
         }
 
-        // Retrieve all cities from the database
-        // $cities = Dashboard::distinct()->orderBy('CSDTxt')->pluck('CSDTxt');
-
-        // Set the selected city name for testing
-        $selected = $request->input('city');
-
-        // Fetch city population data based on the selected city name
-        $cityPopulation = Dashboard::where('CSDTxt', $selected)->first();
+        $cityPopulation = Dashboard::where('CSDTxt', $selectedCity)->first();
 
         // Check if city population data exists
         if ($cityPopulation) {
-            // Extract population data from the $cityPopulation object
             $birthData = [$cityPopulation->Population_2016];
             $deathData = [$cityPopulation->Population_2021];
-            // dd($cityPopulation->Population_2016);
             // Build the chart
             $birthChart = $chart->barChart()
                 // ->setTitle('Pupulation in 2016 v 2021')
                 ->addData("2016", $birthData)
                 ->addData('2021 ', $deathData)
                 ->setXAxis(['Pupulation in 2016 v 2021']);
-
-            // dd($birthChart);
         } else {
-            // Handle case where city population data is not found
-            // For now, let's just set the chart to null
             $birthChart = null;
         }
 
         return view('dashboard', 
-            [   'data' => $data,
+            [   
+                'data' => $data,
+                'Population_percentage_change_2016_to_2021' => $Population_percentage_change_2016_to_2021,
+                'Population_2016' => $Population_2016,
+                'Population_2021' => $Population_2021,
                 'cityData' => $cityData, 
                 'selectedCity' => $selectedCity, 
                 'birthChart'=> $birthChart,

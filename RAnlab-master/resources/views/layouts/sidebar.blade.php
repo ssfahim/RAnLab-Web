@@ -5,7 +5,7 @@
 
         <div class="sidebar_heading">
             <div class="sidebar_heading_inner">
-                <select id="regionSelect">
+                {{-- <select id="regionSelect">
                     <option value="0" @if(Session::get('regionId') === 0) selected @endif>
                         Select Region (Admin)
                     </option>
@@ -16,7 +16,24 @@
                             </option>
                         @endif
                     @endforeach
-                </select>
+                </select> --}}
+                <form id="city-form" method="GET">
+                    @csrf
+                    <select id="regionSelect">
+                        <option value="0" @if(Session::get('regionId', 91) === 0) selected @endif>
+                            Select Region (Admin)
+                        </option>
+                        @foreach($regions as $value)
+                            @if ($value)
+                                <option value="{{ $value['id'] }}"  @if(Session::get('regionId', 91) === $value['id']) selected @endif>
+                                    {{ $value['geog_text'] }}
+                                </option>
+                            @endif
+                        @endforeach
+                    </select>
+                </form>
+                
+                
             </div><!--SIDBAR_HEADING_INNER-->
         </div><!--SIDEBAR_HEADING-->
 

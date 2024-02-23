@@ -14,8 +14,8 @@
     <div id="nav_left">
         <!-- Logo -->
         <div class="shrink-0 flex items-center">
-            {{-- <a href="{{ route('index') }}"> --}}
-            <a href="{{ route('index', ['city' => "St. John's"]) }}">
+            <a href="{{ route('index') }}">
+            {{-- <a href="{{ route('index', ['city' => "St. John's"]) }}"> --}}
                 RAnLab
             </a>
         </div>

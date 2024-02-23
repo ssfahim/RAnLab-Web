@@ -125,6 +125,8 @@ public function add(Request $request)
         'name' => $dataToAccept->business, // Assuming 'business' corresponds to 'name'
         'employment' => $dataToAccept->employee,
         'location' => 'https://www.google.com/maps?q='.$latitude.','.$longitude,
+        'latitude' => $latitude,
+        'longitude' =>  $longitude,
         'is_master' => true,
         'master_id' => 1,
         'is_draft' => false,

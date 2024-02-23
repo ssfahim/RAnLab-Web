@@ -99,11 +99,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     
-    // Route::get('/', [DashboardController::class,'index'])->name('index');
+    Route::get('/', [DashboardController::class,'index'])->name('index');
 
-    Route::get('/', function () {
-        return redirect()->route('index', ['city' => "St. John's"]);
-    });
+    // Route::get('/', function () {
+    //     return redirect()->route('index', ['city' => "St. John's"]);
+    // });
 
     Route::get('/dashboard', [DashboardController::class,'index'])->name('index');
 
