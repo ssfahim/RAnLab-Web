@@ -17,6 +17,12 @@ class DashboardController extends Controller
         $Population_2021 = 0;
         $Population_2016 = 0;
         $Population_percentage_change_2016_to_2021 = 0;
+        $Total_private_dwellings= 0;
+        $Private_dwellings_occupied_by_usual_residents = 0;
+        $Private_dwellings_not_occupied_by_usual_residents = 0;
+        $Age_distribution_0_to_14 = 0;
+        $Age_distribution_15_to_64 = 0;
+        $Age_distribution_65_years_and_over = 0;
 
         if($regionId == 0){
             $regionId = 91;
@@ -25,6 +31,12 @@ class DashboardController extends Controller
                 $Population_2021 = $city->Population_2021;
                 $Population_2016 = $city->Population_2016;
                 $Population_percentage_change_2016_to_2021 = $city->Population_percentage_change_2016_to_2021;
+                $Total_private_dwellings = $city->Total_private_dwellings;
+                $Private_dwellings_occupied_by_usual_residents = $city->Private_dwellings_occupied_by_usual_residents;
+                $Private_dwellings_not_occupied_by_usual_residents = $city->Private_dwellings_not_occupied_by_usual_residents;
+                $Age_distribution_0_to_14 = $city->Age_distribution_0_to_14;
+                $Age_distribution_15_to_64 = $city->Age_distribution_15_to_64;
+                $Age_distribution_65_years_and_over = $city->Age_distribution_65_years_and_over;
             }
         }
         else {
@@ -33,6 +45,12 @@ class DashboardController extends Controller
                 $Population_2021 = $city->Population_2021;
                 $Population_2016 = $city->Population_2016;
                 $Population_percentage_change_2016_to_2021 = $city->Population_percentage_change_2016_to_2021;
+                $Total_private_dwellings = $city->Total_private_dwellings;
+                $Private_dwellings_occupied_by_usual_residents = $city->Private_dwellings_occupied_by_usual_residents;
+                $Private_dwellings_not_occupied_by_usual_residents = $city->Private_dwellings_not_occupied_by_usual_residents;
+                $Age_distribution_0_to_14 = $city->Age_distribution_0_to_14;
+                $Age_distribution_15_to_64 = $city->Age_distribution_15_to_64;
+                $Age_distribution_65_years_and_over = $city->Age_distribution_65_years_and_over;
             }
         }
 
@@ -69,6 +87,12 @@ class DashboardController extends Controller
         return view('dashboard', 
             [   
                 'data' => $data,
+                'Age_distribution_65_years_and_over' => $Age_distribution_65_years_and_over,
+                'Age_distribution_15_to_64' => $Age_distribution_15_to_64,
+                'Age_distribution_0_to_14' => $Age_distribution_0_to_14,
+                'Private_dwellings_occupied_by_usual_residents' => $Private_dwellings_occupied_by_usual_residents,
+                'Private_dwellings_not_occupied_by_usual_residents' => $Private_dwellings_not_occupied_by_usual_residents,
+                'Total_private_dwellings' => $Total_private_dwellings,
                 'Population_percentage_change_2016_to_2021' => $Population_percentage_change_2016_to_2021,
                 'Population_2016' => $Population_2016,
                 'Population_2021' => $Population_2021,

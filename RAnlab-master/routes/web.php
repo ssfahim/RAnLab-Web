@@ -148,6 +148,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::resource('business', BusinessController::class)
         ->only(['index']);
+    Route::get('business/food', [BusinessController::class, 'food'])->name('business.food');
+
 
 
     Route::get('laboursuppply', function(){

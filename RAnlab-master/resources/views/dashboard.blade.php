@@ -1,7 +1,3 @@
-@php
-    use App\Models\Dashboard;
-@endphp
-
 <x-app-layout>
     <x-slot name="header">
         {{ __('Dashboard') }}
@@ -155,16 +151,91 @@
         @endif
     </div>
 
+    <div class="dashboard_row_half dashboard_row_item">
+        <h3 style="font: 800 30px monospace;">Household and dwelling characteristics</h3><br>
+        <div style="display: flex;
+        /* width: 80%; */
+        /* height: auto; */
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-family: sans-serif;
+        background-color: #e0f2ff; /* Light blue background */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); ">
+        
+            <table>
+                <tr>
+                    <td>
+                        <div class="counter-container" style="font: 800 40px monospace; padding: 2rem; margin-bottom: 1rem; text-align: center; width: 140px; display: flex; align-items: center;">
+                            <div class="counter" data-target="{{$Private_dwellings_occupied_by_usual_residents}}" style="margin-right: 10px;"></div>
+                        </div>
+                        <div style="font: 800 20px monospace; text-align:center">
+                            Private dwellings <br>occupied by <br>usual residents
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="counter-container" style="font: 800 40px monospace; padding: 2rem; margin-bottom: 1rem; text-align: center; width: 140px; display: flex; align-items: center;">
+                            <div class="counter" data-target="{{$Total_private_dwellings}}" style="margin-right: 10px;"></div>
+                        </div>
+                        <div style="font: 800 20px monospace; text-align:center">
+                            Total <br>private Dwelling
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
 
-    <!-- Births and Deaths Chart -->
-    <div class="dashboard_row_half dashboard_row_item">@if($cityData)
-            <div id="city-data">
-                <h3 style="font: 800 40px monospace;">{{ $selectedCity }}</h3><br>
-            {{ $birthChart->container() }}
-        @endif
-    </div><!--DASHBOARD_ROW_FULL-->
+    <div class="dashboard_row_half dashboard_row_item">
+        <h3 style="font: 800 30px monospace;">Age characteristics</h3><br>
+        <div style="display: flex;
+        /* width: 80%; */
+        /* height: auto; */
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-family: sans-serif;
+        background-color: #e0f2ff; /* Light blue background */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); ">
+            <table>
+                <tr>
+                    <td>
+                        <div class="counter-container" style="font: 800 40px monospace; padding: 2rem; margin-bottom: 1rem; text-align: center; width: 140px; display: flex; align-items: center;">
+                            <div class="counter" data-target="{{$Age_distribution_0_to_14}}" style="margin-right: 10px;"></div>
+                        </div>
+                        <div style="font: 800 20px monospace; text-align:center">
+                            Age distribution <br>0 to 14
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="counter-container" style="font: 800 40px monospace; padding: 2rem; margin-bottom: 1rem; text-align: center; width: 140px; display: flex; align-items: center;">
+                            <div class="counter" data-target="{{$Age_distribution_15_to_64}}" style="margin-right: 10px;"></div>
+                        </div>
+                        <div style="font: 800 20px monospace; text-align:center">
+                            Age distribution <br>15 to 64
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="counter-container" style="font: 800 40px monospace; padding: 2rem; margin-bottom: 1rem; text-align: center; width: 140px; display: flex; align-items: center;">
+                            <div class="counter" data-target="{{$Age_distribution_65_years_and_over}}" style="margin-right: 10px;"></div>
+                        </div>
+                        <div style="font: 800 20px monospace; text-align:center">
+                            Age distribution <br>65 years and over
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
     <div class="clear"></div><!--CLEAR-->
 </div>
+
 
 <div class="dashboard_row">
     <div class="dashboard_row_full dashboard_row_item">

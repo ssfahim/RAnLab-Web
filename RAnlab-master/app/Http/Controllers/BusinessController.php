@@ -71,6 +71,11 @@ class BusinessController extends Controller
         return view('business-edit');
     }
 
+    public function food(Business $business)
+    {
+        return view('food');
+    }
+
     // public function edit(Business $business)
     // {
     //     return view('business-edit', compact('business'));
