@@ -149,6 +149,10 @@
                     </table>
             </div>
         @endif
+        <x-nav-link :href="route('demography.index')">
+            <i><u>{{ __('See All Details') }}</u></i>
+        </x-nav-link>
+        <br><i>SOURCE: <u><a href="https://www12.statcan.gc.ca/census-recensement/2021/dp-pd/prof/search-recherche/lst/results-resultats.cfm?Lang=E&GEOCODE=10">Cencus Profile Newfoundland and Labrador</a></u> </i>
     </div>
 
     <div class="dashboard_row_half dashboard_row_item">
@@ -186,6 +190,11 @@
                 </tr>
             </table>
         </div>
+        <x-nav-link :href="route('demography.index')">
+            <i><u>{{ __('See All Details') }}</u></i>
+        </x-nav-link>
+        <br>
+        <i>SOURCE: <u><a href="https://www12.statcan.gc.ca/census-recensement/2021/dp-pd/prof/search-recherche/lst/results-resultats.cfm?Lang=E&GEOCODE=10">Cencus Profile Newfoundland and Labrador</a></u> </i>
     </div>
 
     <div class="dashboard_row_half dashboard_row_item">
@@ -232,6 +241,10 @@
                 </tr>
             </table>
         </div>
+        <x-nav-link :href="route('demography.index')">
+            <i><u>{{ __('See All Details') }}</u></i>
+        </x-nav-link>
+        <br><i>SOURCE: <u><a href="https://www12.statcan.gc.ca/census-recensement/2021/dp-pd/prof/search-recherche/lst/results-resultats.cfm?Lang=E&GEOCODE=10">Cencus Profile Newfoundland and Labrador</a></u> </i>
     </div>
     <div class="clear"></div><!--CLEAR-->
 </div>
