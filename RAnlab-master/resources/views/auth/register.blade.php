@@ -1,3 +1,9 @@
+@php
+    use App\Models\Demography;
+
+    $regions = Demography::orderBy('geog_text', 'asc')->get();
+@endphp
+
 <x-guest-layout>
 
 	<div class="registration_intro">
@@ -72,10 +78,24 @@
 
 
         <div class="form_row address_split">
-
             <!-- City/Town -->
             <div class="form_row_split">
-            	<x-text-input id="city" name="city" type="text" class="mt-1 block w-full" :value="old('city')" required autofocus autocomplete="address-level2" placeholder="City/Town" />
+                {{-- <x-text-input id="city" name="city" type="text" class="mt-1 block w-full" :value="old('city')" required autofocus autocomplete="address-level2" placeholder="City/Town" /> --}}
+                {{-- <form id="city-form" method="GET">
+                    @csrf --}}
+                <select  id="city" name="city" class="mt-1 block w-full" required autofocus autocomplete="address-level2">
+                    <option value="0" @if(Session::get('regionId') === 0) selected @endif>
+                        Select Region (Admin)
+                    </option>
+                    @foreach($regions as $value)
+                        @if ($value)
+                            <option value="{{ $value['id'] }}"  @if(Session::get('regionId') === $value['id']) selected @endif>
+                                {{ $value['geog_text'] }}
+                            </option>
+                        @endif
+                    @endforeach
+                </select>
+                {{-- </form> --}}
                 <x-input-error class="mt-2" :messages="$errors->get('city')" />
             </div><!--FORM_ROW_SPLIT-->
 
@@ -83,7 +103,8 @@
         	<div class="form_row_split">
             	<x-text-input id="province" name="province" type="text" class="mt-1 block w-full" :value="old('province')" required autofocus autocomplete="address-level1" placeholder="Province" />
             	<x-input-error class="mt-2" :messages="$errors->get('province')" />
-            </div><!--FORM_ROW_SPLIT-->
+            </div>
+            <!--FORM_ROW_SPLIT-->
 
             <div class="clear"></div><!--CLEAR-->
         </div><!--FORM_ROW-->

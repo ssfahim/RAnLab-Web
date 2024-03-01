@@ -19,18 +19,54 @@ class DemographiesTable extends Table
         // return view('livewire.demography-table-header');
 	}
 
-	public function query(): Builder
+	// public function query(): Builder
+    // {
+    //     $query = Dashboard::query();
+    //     if(Session::has('regionId') && Session::get('regionId') != 0)
+    //     {
+    //         $query = $query->where('CSDID',Session::get('regionId'));
+    //     }
+    //     $query = $query->orderByRaw('CASE WHEN CSDID=1 THEN 0 ELSE 1 END ASC')
+    //         ->orderBy('CSDTxt');
+
+    //     return $query;
+	// }
+
+
+    public function query(): Builder
     {
         $query = Dashboard::query();
-        if(Session::has('regionId') && Session::get('regionId') != 0)
-        {
-            $query = $query->where('CSDID',Session::get('regionId'));
+
+        // Determine regionId based on session or user authentication
+        $regionId = Session::has('regionId') ? Session::get('regionId') : null;
+
+        if (auth()->check()) {
+            if (auth()->user()->email === 'test@test.com') {
+                $regionId = 91;
+                if(Session::has('regionId') && Session::get('regionId') != 0)
+                {
+                    $query = $query->where('CSDID',Session::get('regionId'));
+                }
+                $query = $query->orderByRaw('CASE WHEN CSDID=1 THEN 0 ELSE 1 END ASC')
+                    ->orderBy('CSDTxt');
+            } else {
+                $regionId = auth()->user()->city;
+                if ($regionId !== null && $regionId != 0) {
+                    $query = $query->where('CSDID', $regionId);
+                }
+        
+                // Order the results
+                $query = $query->orderByRaw('CASE WHEN CSDID=1 THEN 0 ELSE 1 END ASC')
+                            ->orderBy('CSDTxt');
+            }
         }
-        $query = $query->orderByRaw('CASE WHEN CSDID=1 THEN 0 ELSE 1 END ASC')
-            ->orderBy('CSDTxt');
+
+        // Apply regionId condition if it exists
+        
 
         return $query;
-	}
+    }
+
 
 	public function columns(): array
     {

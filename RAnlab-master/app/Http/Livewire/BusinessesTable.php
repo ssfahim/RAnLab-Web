@@ -28,6 +28,21 @@ class BusinessesTable extends Table
         {
             $query = $query->where('region',Session::get('regionId'));
         }
+        if (auth()->check()) {
+            if (auth()->user()->email === 'test@test.com') {
+                $regionId = 91;
+                if(Session::has('regionId') && Session::get('regionId') != 0)
+                {
+                    $query = $query->where('region',Session::get('regionId'));
+                }
+                
+            } else {
+                $regionId = auth()->user()->city;
+                if ($regionId !== null && $regionId != 0) {
+                    $query = $query->where('region', $regionId);
+                }
+            }
+        }
 
         return $query;
     }

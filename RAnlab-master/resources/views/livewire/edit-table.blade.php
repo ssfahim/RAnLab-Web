@@ -24,29 +24,6 @@
                             <input type="text" id="{{ $column->key }}" placeholder="{{ $column->label }}"/>
                             
                         </td>
-                        {{-- <td>
-                            <input type="text" id="{{ $column->key }}" placeholder="{{ $column->label }}"/>
-                            <select class="regionSelect" data-target-input="{{ $column->key }}TextInput">
-                                <option value="0">
-                                    Select Region (Admin)
-                                </option>
-                                @php
-                                    $regions = [
-                                        "Baie Verte",
-                                        "Bird Cove",
-                                        "Bishop's Falls",
-                                        "Botwood",
-                                        "Conche",
-                                        "Corner Brook",
-                                       
-                                    ];
-                                @endphp
-                                @foreach($regions as $value)
-                                    <option value="{{ $value }}">
-                                        {{ $value }}
-                                    </option>
-                                @endforeach
-                            </select> --}}
                         
                         @endforeach
                         <td>

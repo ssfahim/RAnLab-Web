@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Dashboard;
 use App\Models\Business;
+use App\Models\User;
 // use App\Charts\BirthsDeathsChart;
 use Illuminate\Http\Request;
 use ArielMejiaDev\LarapexCharts\LarapexChart;
@@ -14,6 +15,19 @@ class DashboardController extends Controller
     public function index(Request $request, LarapexChart $chart){
 
         $regionId = Session::has('regionId') ? Session::get('regionId') : 91;
+
+        $users = User::all();
+        $emails = $users->pluck('email');
+        // dd(auth()->user()->city);
+
+        if(auth()->user()-> email === 'test@test.com'){
+            $regionId = Session::has('regionId') ? Session::get('regionId') : 91;
+        }
+        else{
+            $regionId = auth()->user()->city;
+        }
+
+        // dd($regionId);
         $Population_2021 = 0;
         $Population_2016 = 0;
         $Population_percentage_change_2016_to_2021 = 0;
