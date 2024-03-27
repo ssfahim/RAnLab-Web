@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Dashboard;
 use App\Models\Business;
+use App\Models\AgeGender;
 use App\Models\User;
 // use App\Charts\BirthsDeathsChart;
 use Illuminate\Http\Request;
@@ -13,6 +14,10 @@ class DashboardController extends Controller
 {
 
     public function index(Request $request, LarapexChart $chart){
+
+
+        
+        // dd($ageGenderData);
 
         $regionId = Session::has('regionId') ? Session::get('regionId') : 91;
 
@@ -25,6 +30,28 @@ class DashboardController extends Controller
         }
         else{
             $regionId = auth()->user()->city;
+        }
+        $ageGenderData = AgeGender::all();
+        $regionData = null;
+        $menData = 0;
+        $womenData = 0;
+
+        if($regionId == 0){
+            $regionId = 91;
+            $regionData = AgeGender::where('CSDID', $regionId)->get();
+            // foreach($regionData as $city){
+            //     $ageData = $city->Age_groups;
+            //     $menData = $city->Men;
+            //     $womenData = $city->Women;
+            // }
+        }
+        else{
+            $regionData = AgeGender::where('CSDID', $regionId)->get();
+            // foreach($regionData as $city){
+            //     $ageData = $city->Age_groups;
+            //     $menData = $city->Men;
+            //     $womenData = $city->Women;
+            // }
         }
 
         // dd($regionId);
@@ -100,6 +127,10 @@ class DashboardController extends Controller
 
         return view('dashboard', 
             [   
+                // 'ageData' => $ageData,
+                // 'menData' => $menData,
+                // 'womenData' => $womenData,
+                'regionData' => $regionData,
                 'data' => $data,
                 'Age_distribution_65_years_and_over' => $Age_distribution_65_years_and_over,
                 'Age_distribution_15_to_64' => $Age_distribution_15_to_64,

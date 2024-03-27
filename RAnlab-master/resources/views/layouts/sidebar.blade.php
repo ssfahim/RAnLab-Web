@@ -17,22 +17,26 @@
                         @endif
                     @endforeach
                 </select> --}}
-                <form id="city-form" method="GET">
-                    @csrf
-                    <select id="regionSelect">
-                        <option value="0" @if(Session::get('regionId', 91) === 0) selected @endif>
-                            Select Region (Admin)
-                        </option>
-                        @foreach($regions as $value)
-                            @if ($value)
-                                <option value="{{ $value['id'] }}"  @if(Session::get('regionId', 91) === $value['id']) selected @endif>
-                                    {{ $value['geog_text'] }}
-                                </option>
-                            @endif
-                        @endforeach
-                    </select>
-                </form>
-                
+                @if (auth()->user()->email === 'test@test.com') 
+
+                    <form id="city-form" method="GET">
+                        @csrf
+                        <select id="regionSelect">
+                            <option value="0" @if(Session::get('regionId', 91) === 0) selected @endif>
+                                Select Region (Admin)
+                            </option>
+                            @foreach($regions as $value)
+                                @if ($value)
+                                    <option value="{{ $value['id'] }}"  @if(Session::get('regionId', 91) === $value['id']) selected @endif>
+                                        {{ $value['geog_text'] }}
+                                    </option>
+                                @endif
+                            @endforeach
+                        </select>
+                    </form>
+                @else
+                    <h2>Client Panel</h2>
+                @endif
                 
             </div><!--SIDBAR_HEADING_INNER-->
         </div><!--SIDEBAR_HEADING-->
