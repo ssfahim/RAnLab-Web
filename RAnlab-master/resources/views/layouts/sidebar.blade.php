@@ -114,9 +114,9 @@
             <x-nav-link :href="route('business.index')" :active="request()->routeIs('business.index')">
                 {{ __('Business') }}
             </x-nav-link>
-            <x-nav-link :href="route('business.food')">
+            {{-- <x-nav-link :href="route('business.food')">
                 {{ __('FoodPrice') }}
-            </x-nav-link>
+            </x-nav-link> --}}
 		</div><!--SIDEBAR_NAV_ITEM-->
 
         {{-- <div class="sidebar_nav_item">
