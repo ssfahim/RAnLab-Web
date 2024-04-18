@@ -147,6 +147,25 @@ class DashboardController extends Controller
                 'businesses' => $businesses,
             ]);
     }
+
+    function upload(){
+        return view("upload");
+    }
+
+    function uploadPost(Request $request){
+        $file = $request->file("file");
+        echo "File Name: " .$file->getClientOriginalName();
+        echo '<br>';
+        echo "File Extension: " .$file->getClientOriginalExtension();
+
+        $destinationPath = "userUploads";
+        if($file-> move($destinationPath, $file->getClientOriginalName())){
+            echo "File Upload Success";
+        }
+        else{
+            echo "Failed to upload file";
+        }
+    }
     
     // public function index(AgeGroupsChart $ageChart, PopulationChangeChart $popChart, BirthsDeathsChart $birthChart)
     // {

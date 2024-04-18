@@ -92,34 +92,20 @@ use Illuminate\Support\Facades\Route;
 //     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
 //     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 // });
-
+// Auth::routes(['verify' => true]);
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     
-    Route::get('/', [DashboardController::class,'index'])->name('index');
-
-    // Route::get('/', function () {
-    //     return redirect()->route('index', ['city' => "St. John's"]);
-    // });
-
+    Route::get('/', [DashboardController::class,'index', 'upload'])->name('index');
     Route::get('/dashboard', [DashboardController::class,'index'])->name('index');
 
-    // Route::get('/dashboard/{city}', [DashboardController::class, 'dashboard'])->name('dashboard');
-
-    // Route::post('/fetch-city-data', [DashboardController::class, 'fetchCityData'])->name('fetchCityData');
-
-    // Route::get('/get-city-data', function (Request $request) {
-    //     $city = $request->query('city');
-    //     $cityData = Dashboard::where('city', $city)->first(); // Assuming 'city' is the column name in your Dashboard model
-    
-    //     return response()->json($cityData);
-    // });
-    
-
-
+    Route::prefix('dashboard')->group(function () {
+        Route::get('/upload', [DashboardController::class, 'upload'])->name('dashboard.upload');
+        Route::post('/upload', [DashboardController::class, 'uploadPost'])->name('dashboard.upload.post');
+    });
 
     Route::post('/selectRegion/{regionId}', [RegionSelectController::class,'setRegion']);
 
@@ -127,24 +113,24 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->only(['index']);
 
     Route::get('/housing', function(){
-            return view('housing')->name('housing');
-        });
+            return view('housing');
+        })->name('housing');
 
     Route::get('/incomeclass', function(){
             return view('income-classes');
-        });
+        })->name('incomeclass');
 
     Route::get('/incomesource', function(){
             return view('income-sources');
-        });
+        })->name('incomesource');
 
     Route::get('/spending', function(){
             return view('consumer-spending');
-        });
+        })->name('spending');
 
     Route::get('/industries', function(){
             return view('industries');
-        });
+        })->name('industries');
 
     Route::resource('business', BusinessController::class)
         ->only(['index']);
@@ -154,11 +140,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('laboursuppply', function(){
             return view('labor-supply');
-        });
+        })->name('laboursuppply');
 
     Route::get('/labourdemand', function(){
             return view('labor-demand');
-        });
+        })->name('labourdemand');
 
     
     Route::post('/review/amend/{review}', [ReviewController::class, 'amend']);
@@ -167,8 +153,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 /////////////////////////  This is the part that I am changing  ////////////////////////////
 
     Route::post('/add', [ReviewController::class, 'add']);
-    
-
     
     Route::middleware(['is_admin'])->group(function () {
         Route::resource('review', ReviewController::class)

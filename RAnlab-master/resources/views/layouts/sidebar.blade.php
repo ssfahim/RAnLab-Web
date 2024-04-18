@@ -41,6 +41,40 @@
             </div><!--SIDBAR_HEADING_INNER-->
         </div><!--SIDEBAR_HEADING-->
 
+        <!-- EDIT BAR -->
+        <div class="sidebar_heading">
+        	<div class="sidebar_heading_inner">
+                <div class="sidebar_heading_icon">
+                    <img src="/images/edit.svg">
+                </div><!--SIDEBAR_HEADING_ICON-->
+                <div class="sidebar_heading_text">Edit-bar</div><!--SIDEBAR_HEADING_TEXT-->
+                <div class="clear"></div><!--CLEAR-->
+            </div><!--SIDBAR_HEADING_INNER-->
+        </div><!--SIDEBAR_HEADING-->
+
+        <div class="sidebar_nav_item">
+            <x-nav-link :href="route('business.index')" :active="request()->routeIs('business.index')">
+                {{ __('Business') }}
+            </x-nav-link>
+        </div><!--SIDEBAR_NAV_ITEM-->
+
+        <div class="sidebar_nav_item">
+            <x-nav-link :href="route('housing')" :active="request()->routeIs('housing')">
+                {{ __('Housing') }}
+            </x-nav-link>
+		</div><!--SIDEBAR_NAV_ITEM-->
+
+        <div class="uploads">
+            <form method="POST" action="{{route("dashboard.upload.post")}}" enctype="multipart/form-data">
+                @csrf
+                <div class="mb-3">
+                    <input class="form-control" name="file" type="file" id="formFile" style="background: lightgrey;border: none;">
+                </div>
+                <input type="submit" class="btn btn-primary" style="margin-left: 25px;">
+            </form>
+        </div>
+
+        
         <!-- Population -->
         <div class="sidebar_heading">
         	<div class="sidebar_heading_inner">
@@ -53,16 +87,22 @@
         </div><!--SIDEBAR_HEADING-->
 
         <div class="sidebar_nav_item">
-            <x-nav-link :href="route('demography.index')" :active="request()->routeIs('demography.index')">
+            {{-- <x-nav-link :href="route('demography.index')" :active="request()->routeIs('demography.index')">
                 {{ __('Demography') }}
-            </x-nav-link>
+            </x-nav-link> --}}
+            <a href="{{ route('index') }}#demography">
+                {{ __('Demography') }}
+            </a>
         </div><!--SIDEBAR_NAV_ITEM-->
 
-        {{-- <div class="sidebar_nav_item">
-            <x-nav-link :href="route('housing')" :active="request()->routeIs('housing')">
-                {{ __('Housing') }}
-            </x-nav-link>
-		</div><!--SIDEBAR_NAV_ITEM--> --}}
+        <div class="sidebar_nav_item">
+            {{-- <x-nav-link :href="route('housing')" :active="request()->routeIs('housing')">
+                {{ __('House Dweillings') }}
+            </x-nav-link> --}}
+            <a href="{{ route('index') }}#housing">
+                {{ __('House Dweillings') }}
+            </a>
+		</div><!--SIDEBAR_NAV_ITEM-->
 
         <!-- Economy -->
 		<div class="sidebar_heading">
@@ -75,23 +115,23 @@
         	</div><!--SIDBAR_HEADING_INNER-->
         </div><!--SIDEBAR_HEADING-->
 
-        {{-- <div class="sidebar_nav_item">
+        <div class="sidebar_nav_item">
             <x-nav-link :href="route('incomeclass')" :active="request()->routeIs('incomeclass')">
                 {{ __('Income Classes') }}
             </x-nav-link>
-		</div><!--SIDEBAR_NAV_ITEM--> --}}
+		</div><!--SIDEBAR_NAV_ITEM-->
 
-        {{-- <div class="sidebar_nav_item">
+        <div class="sidebar_nav_item">
             <x-nav-link :href="route('incomesource')" :active="request()->routeIs('incomesource')">
                 {{ __('Income Sources') }}
             </x-nav-link>
-		</div><!--SIDEBAR_NAV_ITEM--> --}}
+		</div><!--SIDEBAR_NAV_ITEM-->
 
-        {{-- <div class="sidebar_nav_item">
+        <div class="sidebar_nav_item">
             <x-nav-link :href="route('spending')" :active="request()->routeIs('spending')">
                 {{ __('Consumer Spending') }}
             </x-nav-link>
-		</div><!--SIDEBAR_NAV_ITEM--> --}}
+		</div><!--SIDEBAR_NAV_ITEM-->
 
         <!-- Workforce -->
         <div class="sidebar_heading">
@@ -104,32 +144,38 @@
             </div><!--SIDBAR_HEADING_INNER-->
         </div><!--SIDEBAR_HEADING-->
 
-        {{-- <div class="sidebar_nav_item">
+        <div class="sidebar_nav_item">
             <x-nav-link :href="route('industries')" :active="request()->routeIs('industries')">
                 {{ __('Industries') }}
             </x-nav-link>
-		</div><!--SIDEBAR_NAV_ITEM--> --}}
+		</div><!--SIDEBAR_NAV_ITEM-->
 
         <div class="sidebar_nav_item">
             <x-nav-link :href="route('business.index')" :active="request()->routeIs('business.index')">
                 {{ __('Business') }}
             </x-nav-link>
-            <x-nav-link :href="route('business.food')">
+            {{-- <x-nav-link :href="route('business.food')">
                 {{ __('FoodPrice') }}
-            </x-nav-link>
+            </x-nav-link> --}}
 		</div><!--SIDEBAR_NAV_ITEM-->
 
-        {{-- <div class="sidebar_nav_item">
+        <div class="sidebar_nav_item">
             <x-nav-link :href="route('laboursuppply')" :active="request()->routeIs('laboursuppply')">
                 {{ __('Labour Supply') }}
             </x-nav-link>
-		</div><!--SIDEBAR_NAV_ITEM--> --}}
+		</div><!--SIDEBAR_NAV_ITEM-->
 
-        {{-- <div class="sidebar_nav_item">
+        <div class="sidebar_nav_item">
             <x-nav-link :href="route('labourdemand')" :active="request()->routeIs('labourdemand')">
                 {{ __('Labour Demand') }}
             </x-nav-link>
-		</div><!--SIDEBAR_NAV_ITEM--> --}}
+		</div><!--SIDEBAR_NAV_ITEM-->
 
     </div><!--SIDEBAR_NAV_COLUMN-->
+    {{-- <script>
+        function goToDemography() {
+            document.querySelector('a[href="#demography"]').click();
+        }
+    </script> --}}
+    
 </aside>

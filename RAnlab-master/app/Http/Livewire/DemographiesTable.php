@@ -19,20 +19,6 @@ class DemographiesTable extends Table
         // return view('livewire.demography-table-header');
 	}
 
-	// public function query(): Builder
-    // {
-    //     $query = Dashboard::query();
-    //     if(Session::has('regionId') && Session::get('regionId') != 0)
-    //     {
-    //         $query = $query->where('CSDID',Session::get('regionId'));
-    //     }
-    //     $query = $query->orderByRaw('CASE WHEN CSDID=1 THEN 0 ELSE 1 END ASC')
-    //         ->orderBy('CSDTxt');
-
-    //     return $query;
-	// }
-
-
     public function query(): Builder
     {
         $query = Dashboard::query();
@@ -60,10 +46,7 @@ class DemographiesTable extends Table
                             ->orderBy('CSDTxt');
             }
         }
-
-        // Apply regionId condition if it exists
         
-
         return $query;
     }
 

@@ -1,4 +1,3 @@
-<!-- add-business-dialog.blade.php -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -7,16 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    {{-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"> --}}
+    {{-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> --}}
 
     <style>
-        /* CSS to adjust the width of the industry dropdown */
         #industry {
-            max-width: 100%; /* Adjust this value as needed */
+            max-width: 100%;
         }
         #citySelect {
             max-width: 100%;
@@ -32,11 +29,41 @@
     </style>
 </head>
 <body>
-
+    @php
+        $regions = Session::has('regionId') ? Session::get('regionId') : 91;
+        // $regions = Session::has('regionId') ? Session::get('regionId') : []; // Initialize as an empty array if not set
+        // dd($regions); // Uncomment this line to debug if the regions are properly fetched
+    @endphp
     <button type="button" class="btn btn-primary m-2" data-toggle="modal" data-target="#demoModal" style="background-color: hsl(155, 7%, 55%)">Add New Business</button>
+    {{-- <button onclick="showPopup()" style="float:right;"><img src="/images/help.svg" alt="" style="width: 35px; height: auto;"></button> --}}
 
     <form action="{{url('/add')}}" method="POST">
         @csrf
+
+        {{-- <div class="popup" id="popup">
+            <div class="modal-header">
+                <div class="title">Example Modal</div>
+            </div>
+            <div class="modal-body">
+                <h5 style="text-align: center;">Municipality</h5>
+                <select  id="city" name="cityCode" class="mt-1 block w-full" required autofocus autocomplete="address-level2">
+                    <option value="0" @if(Session::get('regionId') === 0) selected @endif>
+                        Select Region (Admin)
+                    </option>
+                    @foreach($regions as $value)
+                        @if ($value)
+                            <option value="{{ $value['id'] }}"  @if(Session::get('regionId') === $value['id']) selected @endif>
+                                {{ $value['geog_text'] }}
+                            </option>
+                        @endif
+                    @endforeach
+                </select>
+            </div>
+            <br>
+            <button onclick="hidePopup()" style="border: 1px solid black; background-color: lightgray;  display: block; margin: 0 auto; height:30px; width:50px;">Close</button>
+        </div>
+        <div id="overlay"></div> --}}
+
         <div class="modal fade" id="demoModal" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -50,29 +77,6 @@
                     </div>
                     <div class="modal-body">
                     </div>
-                    {{-- <div class="form-group">
-                        <label class="control-label col-sm-2" for="fname">Municipality</label>
-                        <div class="col-sm-10">
-                            <select id="regionSelect" name="region">
-                                <option value="0">
-                                    Select Region
-                                </option>
-                                @php
-                                    $regions = [
-                                        "Baie Verte",
-                                        "Bird Cove",
-                                        "Bishop's Falls",
-                                        "Botwood",
-                                    ];
-                                @endphp
-                                @foreach($regions as $value)
-                                    <option value="{{ $value }}">
-                                        {{ $value }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div> --}}
                     <div class="form-group">
                         
                         <h5 style="text-align: center;">Municipality</h5>
@@ -81,7 +85,19 @@
                         {{-- <h5>Municipality</h5> --}}
                         {{-- <label style="text-align: center;">Municipality</label> --}}
                         <div class="col-sm-10">
-                            <select id="citySelect" name="region" onchange="showCityCode()">
+                            <select id="regionSelect">
+                                <option value="0" @if(Session::get('regionId') === 0) selected @endif>
+                                    Select Region (Admin)
+                                </option>
+                                @foreach($regions as $value)
+                                    @if ($value)
+                                        <option value="{{ $value['id'] }}"  @if(Session::get('regionId') === $value['id']) selected @endif>
+                                            {{ $value['geog_text'] }}
+                                        </option>
+                                    @endif
+                                @endforeach
+                            </select>
+                            {{-- <select id="citySelect" name="region" onchange="showCityCode()">
                                 <option value="">Select a city</option>
                                 <option value="304">Baie Verte</option>
                                 <option value="331">Bird Cove</option>
@@ -112,7 +128,7 @@
                                 <option value="362">Labrador City</option>
                                 <option value="363">Wabush</option>
                             </select>
-                            <input type="hidden" id="cityCode" name='cityCode' readonly>
+                            <input type="hidden" id="cityCode" name='cityCode' readonly> --}}
                         </div>
                     </div>
                     
@@ -302,72 +318,23 @@
             var selectedValue = selectedOption.value;
             var selectedText = selectedOption.text;
         
-            // Set the selected city name in the select box
             selectBox.options[selectedIndex].text = selectedText;
         
-            // Set the city code in the input box
             document.getElementById("cityCode").value = selectedValue;
+        }
+
+        function showPopup() {
+            document.getElementById('popup').style.display = 'block';
+            document.getElementById('overlay').style.display = 'block';
+        }
+
+        function hidePopup() {
+            document.getElementById('popup').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
         }
         </script>
     
     
 </body>
 </html>
-
-
-
-
-<div>
-    {{-- <h1>Hello There! LUL</h1> --}}
-    {{-- <input type="button" wire:click="showAddBusinessDialog" value="Add New Business" /> --}}
-    {{-- <x-button>{{ _("Create") }} </x-button> --}}
-{{-- 
-    @if($showDialog)
-        <div id="addBusinessDialog" title="Add New Business">
-            <form wire:submit.prevent="submitForm">
-                <label for="region">Region:</label>
-                <select wire:model="region">
-                    <option value="0">Select Region (Admin)</option>
-                    @foreach($regions as $value)
-                        <option value="{{ $value }}">{{ $value }}</option>
-                    @endforeach
-                </select><br>
-
-                <label for="year">Year:</label>
-                <input type="text" wire:model="year" name="year"><br>
-
-                <label for="industry">Industry:</label>
-                <select wire:model="selectedIndustry">
-                    <option value="0">Select Industry</option>
-                    @foreach($industry as $value)
-                        <option value="{{ $value }}">{{ $value }}</option>
-                    @endforeach
-                </select><br>
-
-                <label for="businessName">Business Name:</label>
-                <input type="text" wire:model="businessName" name="businessName"><br>
-
-                <label for="employment">Employment:</label>
-                <input type="text" wire:model="employment" name="employment"><br>
-
-                <label for="location">Location:</label>
-                <input type="text" wire:model="location" name="location"><br>
-
-                <input type="submit" value="Submit">
-            </form>
-        </div>
-    @endif --}}
-</div>
-
-<!-- add-business-dialog.blade.php -->
-
-{{-- @push('scripts')
-    <script>
-        function updateCityCode() {
-            var selectedCity = document.getElementById("regionSelect");
-            var selectedCode = selectedCity.options[selectedCity.selectedIndex].getAttribute("data-code");
-            document.getElementById("cityCode").value = selectedCode;
-        }
-    </script>
-@endpush --}}
 

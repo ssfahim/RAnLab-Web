@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Business;
+use App\Models\Demography;
 // use Illuminate\Support\Str;
 // use App\Models\Review;
 
@@ -37,45 +38,12 @@ public function index()
 
    
 public function add(Request $request)
-{   
-    // Map city codes to city names
-    $cityNames = [
-        "304" => "Baie Verte",
-        "331" => "Bird Cove",
-        "208" => "Bishop's Falls",
-        "210" => "Botwood",
-        "315" => "Conche",
-        "188" => "Corner Brook",
-        "190" => "Cox's Cove",
-        "175" => "Deer Lake",
-        "330" => "Flower's Cove",
-        "207" => "Grand Falls-Windsor",
-        "195" => "Hughes Brook",
-        "360" => "Happy Valley-Goose Bay",
-        "196" => "Irishtown-Summerside",
-        "193" => "Lark Harbour",
-        "187" => "Massey Drive",
-        "191" => "McIvers",
-        "194" => "Meadows",
-        "197" => "Mount Moriah",
-        "209" => "Peterview",
-        "314" => "Roddickton-Bide Arm",
-        "287" => "Springdale",
-        "333" => "St. Anthony",
-        "336" => "St. Lunaire-Griquet",
-        "182" => "Steady Brook",
-        "198" => "York Harbour",
-        "362" => "Labrador City",
-        "363" => "Wabush",
-    ];
-
-    // Get the city name based on the provided city code
-    $regionName = $cityNames[$request->region];
-    // dd($request->all());
-    // dd($regionName);
-
+{
+    // $regionName = $cityNames[$request->region];
+    $regionName = Demography::where('id',  $request->cityCode)->value('geog_text');
+    
     $data = new Category;
-    $data->region = $regionName; // Use city name instead of city code
+    $data->region = $regionName;
     $data->regionId = $request->cityCode;
     $data->year = $request->year;
     $data->industry = $request->industry;
@@ -108,30 +76,30 @@ public function add(Request $request)
     }
 
     public function accept($id)
-{
-    $dataToAccept = Category::find($id);
+    {
+        $dataToAccept = Category::find($id);
 
-    // Split the location coordinates into latitude and longitude
-    $coordinates = explode(', ', $dataToAccept->location);
-    $latitude = $coordinates[0];
-    $longitude = $coordinates[1];
+        // Split the location coordinates into latitude and longitude
+        $coordinates = explode(', ', $dataToAccept->location);
+        $latitude = $coordinates[0];
+        $longitude = $coordinates[1];
 
-    // Save $dataToAccept to the 'business' table
-    Business::create([
-        'last_action' => 'added', // Assuming this is the default value
-        'region' => $dataToAccept->regionId,
-        'year' => $dataToAccept->year,
-        'industry' => $dataToAccept->industry,
-        'name' => $dataToAccept->business, // Assuming 'business' corresponds to 'name'
-        'employment' => $dataToAccept->employee,
-        'location' => 'https://www.google.com/maps?q='.$latitude.','.$longitude,
-        'latitude' => $latitude,
-        'longitude' =>  $longitude,
-        'is_master' => true,
-        'master_id' => 1,
-        'is_draft' => false,
-        'created_by_id' => auth()->id(), // Assuming you have user authentication
-        'updated_by_id' => auth()->id(), // Assuming you have user authentication
+        // Save $dataToAccept to the 'business' table
+        Business::create([
+            'last_action' => 'added', 
+            'region' => $dataToAccept->regionId,
+            'year' => $dataToAccept->year,
+            'industry' => $dataToAccept->industry,
+            'name' => $dataToAccept->business, 
+            'employment' => $dataToAccept->employee,
+            'location' => 'https://www.google.com/maps?q='.$latitude.','.$longitude,
+            'latitude' => $latitude,
+            'longitude' =>  $longitude,
+            'is_master' => true,
+            'master_id' => 1,
+            'is_draft' => false,
+            'created_by_id' => auth()->id(), 
+            'updated_by_id' => auth()->id(), 
     ]);
 
     // Optionally, you can also delete the record from the original 'category' table

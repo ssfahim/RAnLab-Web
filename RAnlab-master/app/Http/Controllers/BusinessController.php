@@ -68,7 +68,8 @@ class BusinessController extends Controller
      */
     public function edit(Business $business)
     {
-        return view('business-edit');
+        $regions = Session::has('regionId') ? Session::get('regionId') : 91;
+        return view('business-edit',['regions' => $regions,]);
     }
 
     public function food(Business $business)

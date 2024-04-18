@@ -100,155 +100,6 @@
 @php
     $cities = $data->unique('CSDTxt')->pluck('CSDTxt')->sort();
 @endphp
-<div class="dashboard_row">
-    <div class="dashboard_row_half dashboard_row_item">
-        @if($cityData)
-            <div id="city-data">
-                <h3 style="font: 800 40px monospace;">{{ $selectedCity }}</h3><br>
-                <!-- Display city data here -->
-                <table style="display: flex;
-                    /* width: 80%; */
-                    flex-direction: column;
-                    align-items: center;
-                    justify-content: center;
-                    font-family: sans-serif;
-                    background-color: #e0f2ff; /* Light blue background */
-                    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);">
-                        <tr>
-                            <td>
-                                <div class="counter" data-target="{{$Population_2021}}" style="font: 800 40px monospace; padding: 2rem; margin-bottom: 1rem; text-align: center; width: 150px; display: inline-block;"></div>
-                            </td>
-                            <td rowspan=4>
-                                <div style="border: 2px solid black; ">
-                                    <div class="counter-container" style="font: 800 40px monospace; padding: 2rem; margin-bottom: 1rem; text-align: center; width: 140px; display: flex; align-items: center;">
-                                        <div class="counters" data-target="{{$Population_percentage_change_2016_to_2021}}" style="margin-right: 10px;"></div>
-                                        <img class="arrow-icon" src="" alt="" style="width: 35px; height: auto;">
-                                    </div>
-                                    <div style="font: 800 20px monospace; text-align:center">
-                                        Population <br>percentage change
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="1" style="font: 800 20px monospace;">
-                                <p>Population in 2021</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="counter" data-target="{{$Population_2016}}" style="font: 800 40px monospace; padding: 2rem; margin-bottom: 1rem; text-align: center; width: 150px; display: inline-block; margin-right: 1rem;"></div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="1" style="font: 800 20px monospace; align-items:inherit">
-                                <p>Population in 2016</p>
-                            </td>
-                        </tr>
-                        
-                    </table>
-            </div>
-        @endif
-        <x-nav-link :href="route('demography.index')">
-            <i><u>{{ __('See All Details') }}</u></i>
-        </x-nav-link>
-        <br><i>SOURCE: <u><a href="https://www12.statcan.gc.ca/census-recensement/2021/dp-pd/prof/search-recherche/lst/results-resultats.cfm?Lang=E&GEOCODE=10">Census Profile Newfoundland and Labrador</a></u> </i>
-    </div>
-
-    <div class="dashboard_row_half dashboard_row_item">
-        <h3 style="font: 800 30px monospace;">Household and dwelling characteristics</h3><br>
-        <div style="display: flex;
-        /* width: 80%; */
-        /* height: auto; */
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        font-family: sans-serif;
-        background-color: #e0f2ff; /* Light blue background */
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); ">
-        
-            <table>
-                <tr>
-                    <td>
-                        <div class="counter-container" style="font: 800 40px monospace; padding: 2rem; margin-bottom: 1rem; text-align: center; width: 140px; display: flex; align-items: center;">
-                            <div class="counter" data-target="{{$Private_dwellings_occupied_by_usual_residents}}" style="margin-right: 10px;"></div>
-                        </div>
-                        <div style="font: 800 20px monospace; text-align:center">
-                            Private dwellings <br>occupied by <br>usual residents
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="counter-container" style="font: 800 40px monospace; padding: 2rem; margin-bottom: 1rem; text-align: center; width: 140px; display: flex; align-items: center;">
-                            <div class="counter" data-target="{{$Total_private_dwellings}}" style="margin-right: 10px;"></div>
-                        </div>
-                        <div style="font: 800 20px monospace; text-align:center">
-                            Total <br>private Dwelling
-                        </div>
-                    </td>
-                </tr>
-            </table>
-        </div>
-        <x-nav-link :href="route('demography.index')">
-            <i><u>{{ __('See All Details') }}</u></i>
-        </x-nav-link>
-        <br>
-        <i>SOURCE: <u><a href="https://www12.statcan.gc.ca/census-recensement/2021/dp-pd/prof/search-recherche/lst/results-resultats.cfm?Lang=E&GEOCODE=10">Census Profile Newfoundland and Labrador</a></u> </i>
-    </div>
-
-    <div class="dashboard_row_half dashboard_row_item">
-        <h3 style="font: 800 30px monospace;">Age characteristics</h3><br>
-        <div style="display: flex;
-        /* width: 80%; */
-        /* height: auto; */
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        font-family: sans-serif;
-        background-color: #e0f2ff; /* Light blue background */
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); ">
-            <table>
-                <tr>
-                    <td>
-                        <div class="counter-container" style="font: 800 40px monospace; padding: 2rem; margin-bottom: 1rem; text-align: center; width: 140px; display: flex; align-items: center;">
-                            <div class="counter" data-target="{{$Age_distribution_0_to_14}}" style="margin-right: 10px;"></div>
-                        </div>
-                        <div style="font: 800 20px monospace; text-align:center">
-                            Age distribution <br>0 to 14
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="counter-container" style="font: 800 40px monospace; padding: 2rem; margin-bottom: 1rem; text-align: center; width: 140px; display: flex; align-items: center;">
-                            <div class="counter" data-target="{{$Age_distribution_15_to_64}}" style="margin-right: 10px;"></div>
-                        </div>
-                        <div style="font: 800 20px monospace; text-align:center">
-                            Age distribution <br>15 to 64
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="counter-container" style="font: 800 40px monospace; padding: 2rem; margin-bottom: 1rem; text-align: center; width: 140px; display: flex; align-items: center;">
-                            <div class="counter" data-target="{{$Age_distribution_65_years_and_over}}" style="margin-right: 10px;"></div>
-                        </div>
-                        <div style="font: 800 20px monospace; text-align:center">
-                            Age distribution <br>65 years and over
-                        </div>
-                    </td>
-                </tr>
-            </table>
-        </div>
-        <x-nav-link :href="route('demography.index')">
-            <i><u>{{ __('See All Details') }}</u></i>
-        </x-nav-link>
-        <br><i>SOURCE: <u><a href="https://www12.statcan.gc.ca/census-recensement/2021/dp-pd/prof/search-recherche/lst/results-resultats.cfm?Lang=E&GEOCODE=10">Census Profile Newfoundland and Labrador</a></u> </i>
-    </div>
-    <div class="clear"></div><!--CLEAR-->
-</div>
-
 <style>
     body {
         background-color: #f5f5f5;
@@ -320,10 +171,231 @@
     .footer {
         height: 50px;
     }
+
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 100; /* Ensure popup is above overlay */
+    display: none; /* Hidden by default */
+    max-width: 80%; /* Set maximum width */
+    width: 500px; /* Set default width */
+}
+.modal-header {
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid black;
+}
+
+.modal-header .title {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.modal-header .close-button {
+    cursor: pointer;
+    border: none;
+    outline: none;
+    background: none;
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.modal-body {
+    padding: 10px 15px;
+}
+
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    z-index: 99;
+}
 </style>
-<div class="dashboard_row">
+<div class="dashboard_row"  id="demography">
+    <div class="dashboard_row_half dashboard_row_item">
+        {{-- Population Info --}}
+        @if($cityData)
+            <div id="city-data">
+                <h3 style="font: 800 40px monospace;text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">{{ $selectedCity }}</h3><br>
+                <!-- Display city data here -->
+                <table style="display: flex;
+                    /* width: 80%; */
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    font-family: sans-serif;
+                    background-color: #e0f2ff; /* Light blue background */
+                    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);">
+                        <tr>
+                            <td>
+                                <div class="counter" data-target="{{$Population_2021}}" style="font: 800 40px monospace; padding: 2rem; margin-bottom: 1rem; text-align: center; width: 150px; display: inline-block;"></div>
+                            </td>
+                            <td rowspan=4>
+                                <div style="border: 2px solid black; ">
+                                    <div class="counter-container" style="font: 800 40px monospace; padding: 2rem; margin-bottom: 1rem; text-align: center; width: 140px; display: flex; align-items: center;">
+                                        <div class="counters" data-target="{{$Population_percentage_change_2016_to_2021}}" style="margin-right: 10px;"></div>
+                                        <img class="arrow-icon" src="" alt="" style="width: 35px; height: auto;">
+                                    </div>
+                                    <div style="font: 800 20px monospace; text-align:center">
+                                        Population <br>percentage change
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="1" style="font: 800 20px monospace;">
+                                <p>Population in 2021</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="counter" data-target="{{$Population_2016}}" style="font: 800 40px monospace; padding: 2rem; margin-bottom: 1rem; text-align: center; width: 150px; display: inline-block; margin-right: 1rem;"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="1" style="font: 800 20px monospace; align-items:inherit">
+                                <p>Population in 2016</p>
+                            </td>
+                        </tr>
+                        
+                    </table>
+            </div>
+        @endif
+        <button onclick="showPopup()" style="float:right;"><img src="/images/help.svg" alt="" style="width: 35px; height: auto;"></button>
+
+        <div class="popup" id="popup">
+            <div class="modal-header">
+                <div class="title">Example Modal</div>
+              </div>
+              <div class="modal-body">
+                <div class="flourish-embed flourish-hierarchy" data-src="visualisation/15588597"><script src="https://public.flourish.studio/resources/embed.js"></script></div>            
+            </div>
+            <x-nav-link :href="route('demography.index')">
+                <i><u>{{ __('See All Details') }}</u></i>
+            </x-nav-link>
+            <br>
+            <i>SOURCE: <u><a href="https://www12.statcan.gc.ca/census-recensement/2021/dp-pd/prof/search-recherche/lst/results-resultats.cfm?Lang=E&GEOCODE=10">Census Profile Newfoundland and Labrador</a></u> </i>    
+            <br>
+            <button onclick="hidePopup()" style="border: 1px solid black; background-color: lightgray;  display: block; margin: 0 auto; height:30px; width:50px;">Close</button>
+        </div>
+        <div id="overlay"></div>
+    </div>
+
+    {{-- Age Characteristics --}}
+    <div class="dashboard_row_half dashboard_row_item">
+        <h3 style="font: 800 30px monospace; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">Age characteristics</h3><br>
+        <div style="display: flex;
+        /* width: 80%; */
+        /* height: auto; */
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-family: sans-serif;
+        background-color: #e0f2ff; /* Light blue background */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); ">
+            <table>
+                <tr>
+                    <td>
+                        <div class="counter-container" style="font: 800 40px monospace; padding: 2rem; margin-bottom: 1rem; text-align: center; width: 140px; display: flex; align-items: center;">
+                            <div class="counter" data-target="{{$Age_distribution_0_to_14}}" style="margin-right: 10px;"></div>
+                        </div>
+                        <div style="font: 800 20px monospace; text-align:center">
+                            Age distribution <br>0 to 14
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="counter-container" style="font: 800 40px monospace; padding: 2rem; margin-bottom: 1rem; text-align: center; width: 140px; display: flex; align-items: center;">
+                            <div class="counter" data-target="{{$Age_distribution_15_to_64}}" style="margin-right: 10px;"></div>
+                        </div>
+                        <div style="font: 800 20px monospace; text-align:center">
+                            Age distribution <br>15 to 64
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="counter-container" style="font: 800 40px monospace; padding: 2rem; margin-bottom: 1rem; text-align: center; width: 140px; display: flex; align-items: center;">
+                            <div class="counter" data-target="{{$Age_distribution_65_years_and_over}}" style="margin-right: 10px;"></div>
+                        </div>
+                        <div style="font: 800 20px monospace; text-align:center">
+                            Age distribution <br>65 years and over
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <x-nav-link :href="route('demography.index')">
+            <i><u>{{ __('See All Details') }}</u></i>
+        </x-nav-link>
+        <br><i>SOURCE: <u><a href="https://www12.statcan.gc.ca/census-recensement/2021/dp-pd/prof/search-recherche/lst/results-resultats.cfm?Lang=E&GEOCODE=10">Census Profile Newfoundland and Labrador</a></u> </i>
+    </div>
+    <div class="clear"></div><!--CLEAR-->
+</div>
+
+{{-- House Dwellings --}}
+<div class="dashboard_row"  id="housing">
+    <div class="dashboard_row_half dashboard_row_item">
+        <h3 style="font: 800 30px monospace; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">Household and dwelling characteristics</h3><br>
+        <div style="display: flex;
+        /* width: 80%; */
+        /* height: auto; */
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-family: sans-serif;
+        background-color: #e0f2ff; /* Light blue background */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); ">
+        
+            <table>
+                <tr>
+                    <td>
+                        <div class="counter-container" style="font: 800 40px monospace; padding: 2rem; margin-bottom: 1rem; text-align: center; width: 140px; display: flex; align-items: center;">
+                            <div class="counter" data-target="{{$Private_dwellings_occupied_by_usual_residents}}" style="margin-right: 10px;"></div>
+                        </div>
+                        <div style="font: 800 20px monospace; text-align:center">
+                            Private dwellings <br>occupied by <br>usual residents
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="counter-container" style="font: 800 40px monospace; padding: 2rem; margin-bottom: 1rem; text-align: center; width: 140px; display: flex; align-items: center;">
+                            <div class="counter" data-target="{{$Total_private_dwellings}}" style="margin-right: 10px;"></div>
+                        </div>
+                        <div style="font: 800 20px monospace; text-align:center">
+                            Total <br>private Dwelling
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <x-nav-link :href="route('demography.index')">
+            <i><u>{{ __('See All Details') }}</u></i>
+        </x-nav-link>
+        <br>
+        <i>SOURCE: <u><a href="https://www12.statcan.gc.ca/census-recensement/2021/dp-pd/prof/search-recherche/lst/results-resultats.cfm?Lang=E&GEOCODE=10">Census Profile Newfoundland and Labrador</a></u> </i>
+    </div>
+    <div id="overlay"></div>
+</div>
+
+{{-- Population Pyramid --}}
+<div class="dashboard_row" style="margin-top: 150px;">
     <div class="dashboard_row_full dashboard_row_item">
-        <h3 style="font: 800 30px monospace;">Population Pyramid</h3><br>
+        <h3 style="font: 800 30px monospace; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">Population Pyramid</h3><br>
         <div id="chartDiv" class="container"></div>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
@@ -672,6 +744,7 @@
     <div class="clear"></div><!--CLEAR-->
 </div>
 
+{{-- MAP --}}
 <div class="dashboard_row">
     <div class="dashboard_row_full dashboard_row_item">
         <b>Businesses in Newfoundland and Labrador</b>
@@ -679,7 +752,7 @@
     </div><!--DASHBOARD_ROW_FULL-->
     <div class="clear"></div><!--CLEAR-->
 </div>
-
+{{-- 
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" />
 <script src="https://cdn.plot.ly/plotly-geo-assets/maps/basemap/open-street-map.json"></script>
@@ -691,7 +764,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="https://d3js.org/d3.v4.min.js"></script> --}}
 
 
 @if($birthChart)
@@ -701,6 +774,16 @@
 
 
 <script>
+
+function showPopup() {
+    document.getElementById('popup').style.display = 'block';
+    document.getElementById('overlay').style.display = 'block';
+}
+
+function hidePopup() {
+    document.getElementById('popup').style.display = 'none';
+    document.getElementById('overlay').style.display = 'none';
+}
 /// ------------------------  This part is for the counter change----------------------------------
     document.addEventListener("DOMContentLoaded", function() {
     const counters = document.querySelectorAll('.counter');
