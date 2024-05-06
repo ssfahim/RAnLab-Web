@@ -34,7 +34,7 @@
         // $regions = Session::has('regionId') ? Session::get('regionId') : []; // Initialize as an empty array if not set
         // dd($regions); // Uncomment this line to debug if the regions are properly fetched
     @endphp
-    <button type="button" class="btn btn-primary m-2" data-toggle="modal" data-target="#demoModal" style="background-color: hsl(155, 7%, 55%)">Add New Business</button>
+    <button type="button" class="btn btn-primary m-2" data-toggle="modal" data-target="#demoModal" style="background-color: hsl(155, 7%, 55%)">Add New</button>
     {{-- <button onclick="showPopup()" style="float:right;"><img src="/images/help.svg" alt="" style="width: 35px; height: auto;"></button> --}}
 
     <form action="{{url('/add')}}" method="POST">

@@ -2,7 +2,9 @@
 
 namespace App\Charts;
 
+use App\Models\Housing;
 use ArielMejiaDev\LarapexCharts\LarapexChart;
+use Session;
 
 class AgeGroupsChart
 {
@@ -15,26 +17,23 @@ class AgeGroupsChart
 
     public function build(int $regionId): \ArielMejiaDev\LarapexCharts\PieChart
     {
-        $data = [];
-
-        switch ($regionId) {
-            case 0:
-                $data = [31250, 140660, 25055];
-                break;
-            case 1:
-                $data = [123, 456, 798];
-                break;
-            case 2:
-                $data = [12, 34, 56];
-                break;
-            default:
-                $data = [31250, 140660, 25055];
-                break;
+        // AgeGender::where('CSDID', $regionId)->get();
+        // $regionId = Session::has('regionId') ? Session::get('regionId') : 91;
+        $Owner = 0;
+        $Renter = 0;
+        $housingData = Housing::where('CSDID', $regionId)->get();
+        foreach ($housingData as $housing) {
+            $Owner = $housing->Owner;
+            $Renter = $housing->Renter;
         }
+        $data = [$Owner, $Renter];
+
+        // dd($regionId);
+
 
         return $this->chart->pieChart()
-            ->setTitle('Age Groups')
+            ->setTitle('Household Tenure')
             ->addData($data)
-            ->setLabels(['0 to 14', '15 to 64', '64 and Up']);
+            ->setLabels(['Owner', 'Renter']);
     }
 }

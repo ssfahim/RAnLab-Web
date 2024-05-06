@@ -6,6 +6,9 @@
 use App\Http\Controllers\BusinessController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DemographyController;
+use App\Http\Controllers\HousingController;
+use App\Http\Controllers\HousingReviewController;
+use App\Http\Controllers\LabourController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegionSelectController;
 use App\Http\Controllers\ReviewController;
@@ -112,9 +115,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('demography', DemographyController::class)
         ->only(['index']);
 
-    Route::get('/housing', function(){
-            return view('housing');
-        })->name('housing');
+    // Route::get('/housing', function(){
+    //         return view('housing');
+    //     })->name('housing');
+
+    Route::resource('/housing', HousingController::class)->only(['index']);
+    Route::resource('/housing_review', HousingReviewController::class)->only(['index', 'add']);
+    Route::post('/housing_review/add', [HousingReviewController::class, 'add']);
+    Route::get('housing_review/delete/{id}', [HousingReviewController::class, 'delete']);
+    Route::get('housing_review/accept/{id}', [HousingReviewController::class, 'accept']);
+    Route::get('housing_review/edit_data/{id}', [HousingReviewController::class, 'edit_data']);
+    Route::put('housing_review/update_data/{id}', [HousingReviewController::class, 'update_data']);
+    // ->only(['index','edit','store','update'])
 
     Route::get('/incomeclass', function(){
             return view('income-classes');
@@ -138,25 +150,36 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 
 
-    Route::get('laboursuppply', function(){
-            return view('labor-supply');
-        })->name('laboursuppply');
+    // Route::get('laboursuppply', function(){
+    //         return view('labor-supply');
+    //     })->name('laboursuppply');
 
-    Route::get('/labourdemand', function(){
-            return view('labor-demand');
-        })->name('labourdemand');
+    // Route::get('/labourdemand', function(){
+    //         return view('labor-demand');
+    //     })->name('labourdemand');
+    
+    Route::resource('/laboursuppply', LabourController::class)->only(['index']);
 
+    Route::resource('/labourdemand', LabourController::class)->only(['index']);
     
     Route::post('/review/amend/{review}', [ReviewController::class, 'amend']);
+    // Route::resource('/review', ReviewController::class)
+    //         ->only(['index','edit','store','show','update','destroy']);
+    // Route::get('/review_business', [ReviewController::class, 'business'])->name('review.business');
+    // Route::get('/review_housing', [ReviewController::class, 'housing'])->name('review.housing');
+
 
 
 /////////////////////////  This is the part that I am changing  ////////////////////////////
-
+    Route::get('/review/message', [ReviewController::class, 'message'])->name('review.message');
     Route::post('/add', [ReviewController::class, 'add']);
     
     Route::middleware(['is_admin'])->group(function () {
-        Route::resource('review', ReviewController::class)
-            ->only(['index', 'edit','store','show','update','destroy']);
+        Route::resource('/review', ReviewController::class)
+            ->only(['index', 'business', 'housing', 'edit','store','show','update','destroy']);
+        Route::get('/review_business', [ReviewController::class, 'business'])->name('review.business');
+        Route::get('/review_housing', [ReviewController::class, 'housing'])->name('review.housing');
+        
         Route::get('/delete/{id}', [ReviewController::class, 'delete']);
         Route::get('/accept/{id}', [ReviewController::class, 'accept']);
         // Route::put('/update_data/{id}', [ReviewController::class, 'update_data'])->name('update_data');

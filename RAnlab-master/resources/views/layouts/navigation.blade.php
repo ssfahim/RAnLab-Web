@@ -1,10 +1,9 @@
 @php
     use App\Models\Category;
-
-    $categoryCount = App\Models\Category::count();
-    // dd($categoryCount);
-
-
+    use App\Models\HousingReviewRequest;
+    use App\Models\Dashboard;
+    use App\Models\Demography;
+    $categoryCount = App\Models\Category::count() + App\Models\HousingReviewRequest::count();
 @endphp
 
 
@@ -64,66 +63,123 @@
             </div><!--NAV_ITEM_CONTAINER-->
 
             <div class="nav_item_container">
-                <x-dropdown align="right" width="48">
-                    <x-slot name="trigger">
-                        <button class="nav_button">
-                            <div class="nav_button_label">
-                                <img src="/images/bell.svg">
-                                @if($categoryCount > 0)
-                                    <div class="red_dot" 
-                                    style="width: 15px;
-                                    height: 15px;
-                                    background-color: red;
-                                    border-radius: 50%;
-                                    position: absolute;
-                                    top: 5px;
-                                    right:17px;"></div>
+                @if(auth()->user()->email == "test@test.com")
+                    <x-dropdown align="right" width="48">
+                        <x-slot name="trigger">
+                            <button class="nav_button">
+                                <div class="nav_button_label">
+                                    {{-- @if(auth()->user()->email == "test@test.com") --}}
+                                        <img src="/images/bell.svg">
+                                        @if($categoryCount > 0)
+                                            <div class="red_dot" 
+                                            style="width: 15px;
+                                            height: 15px;
+                                            background-color: red;
+                                            border-radius: 50%;
+                                            position: absolute;
+                                            top: 5px;
+                                            right:17px;"></div>
+                                        @endif
+                                    {{-- @else
+                                        <img src="/images/suggestion.svg">
+                                    @endif --}}
+                                </div>
+
+                                <div class="nav_button_arrow">
+                                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                            </button>
+                        </x-slot>
+
+                        {{-- @if(auth()->user()->email == "test@test.com") --}}
+                        <x-slot name="content">
+                            <x-dropdown-link :href="route('review.index')">
+                                {{ __('Show All') }}
+                                @if ($categoryCount > 0)
+                                    <span class="red_circle" style="
+                                        display: inline-block;
+                                        width: 20px;
+                                        height: 20px;
+                                        background-color: red;
+                                        color: white;
+                                        text-align: center;
+                                        line-height: 20px;
+                                        border-radius: 50%;
+                                        margin-left: 65px; /* Adjust the margin as needed */
+                                    
+                                    ">{{ $categoryCount }}</span>
                                 @endif
-                            </div>
-
-                            <div class="nav_button_arrow">
-                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                        </button>
-                    </x-slot>
-
-                    <x-slot name="content">
-                        <x-dropdown-link :href="route('review.index')">
-                            {{ __('Show All') }}
-                            @if ($categoryCount > 0)
-                                <span class="red_circle" style="
-                                    display: inline-block;
-                                    width: 20px;
-                                    height: 20px;
-                                    background-color: red;
-                                    color: white;
-                                    text-align: center;
-                                    line-height: 20px;
-                                    border-radius: 50%;
-                                    margin-left: 65px; /* Adjust the margin as needed */
-                                
-                                ">{{ $categoryCount }}</span>
-                            @endif
-                        </x-dropdown-link>
-
-                        {{-- <x-dropdown-link :href="route('review.make')">
-                            {{ __('Show Notifications') }}
-                        </x-dropdown-link> --}}
-
-                        <!-- Authentication -->
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-
-                            <x-dropdown-link :href="route('logout')"
-                                    onclick="event.preventDefault();
-                                                this.closest('form').submit();">
-                                {{ __('Log Out') }}
                             </x-dropdown-link>
-                        </form>
-                    </x-slot>
-                </x-dropdown>
+
+                            {{-- <x-dropdown-link :href="route('review.make')">
+                                {{ __('Show Notifications') }}
+                            </x-dropdown-link> --}}
+
+                            <!-- Authentication -->
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+
+                                <x-dropdown-link :href="route('logout')"
+                                        onclick="event.preventDefault();
+                                                    this.closest('form').submit();">
+                                    {{ __('Log Out') }}
+                                </x-dropdown-link>
+                            </form>
+                        </x-slot>
+                    </x-dropdown>
+                @else
+                    <button class="nav_button">
+                        <div class="nav_button_label">
+                            <x-nav-link :href="route('review.message')" :active="request()->routeIs('review.message')">
+                                <img src="/images/suggestion.svg">
+                            </x-nav-link>
+                        </div>
+                    </button>
+                    {{-- <form action="{{url('/add')}}" method="POST">
+                        @csrf
+                
+                        <div class="modal fade" id="demoModal" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    
+                                    <div class="modal-header">
+                                        <b style="text-align: right;"> <h3>Welcome, RAnLab!!</h3></b>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                    </div>
+                                        
+                                    <div class="form-group">
+                                        <h5 style="text-align: center;">Name</h5>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="name" name="name" placeholder="Name: John Smith">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <h5 style="text-align: center;">Email</h5>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="email" name="email" placeholder="Email: ranlab@mun.ca">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <h5 style="text-align: center;">Message</h5>
+                                        <div class="col-sm-10">
+                                            <textarea class="form-control" id="message" name="message" placeholder="Your message" style="resize: vertical;"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <input type="submit" class="btn btn-primary" value="Save changes" style="background-color: rgb(0, 255, 102)">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form> --}}
+                @endif
+
             </div><!--NAV_ITEM_CONTAINER-->
 
             <div class="clear"></div><!--CLEAR-->
@@ -131,6 +187,47 @@
 
         <div class="clear"></div><!--CLEAR-->
     </div><!--NAV_RIGHT-->
+    {{-- <form action="{{url('/add')}}" method="POST">
+        @csrf
+
+        <div class="modal fade" id="demoModal" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    
+                    <div class="modal-header">
+                        <b style="text-align: right;"> <h3>Welcome, RAnLab!!</h3></b>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                    </div>
+                        
+                    <div class="form-group">
+                        <h5 style="text-align: center;">Name</h5>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Name: John Smith">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <h5 style="text-align: center;">Email</h5>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="email" name="email" placeholder="Email: ranlab@mun.ca">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <h5 style="text-align: center;">Message</h5>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" id="message" name="message" placeholder="Your message" style="resize: vertical;"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="submit" class="btn btn-primary" value="Save changes" style="background-color: rgb(0, 255, 102)">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form> --}}
 
     <!-- Hamburger -->
     <div class="-mr-2 flex items-center sm:hidden">

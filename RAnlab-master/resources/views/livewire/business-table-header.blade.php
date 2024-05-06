@@ -1,17 +1,17 @@
 <!-- business-table-header.blade.php -->
 @php
+    use App\Models\Dashboard;
     use App\Models\Demography;
-
     $regions = Demography::orderBy('geog_text', 'asc')->get();
 @endphp
 <livewire:business-table-header></livewire:business-table-header>
 
 <div class="update_panel">
-    @if(auth()->check())
+    {{-- @if(auth()->check())
         @if(auth()->user()->email === 'test@test.com')
             <p>User Email: {{ auth()->user()->email }}</p>
             <input type="button" onclick="window.location='{{ route("admin.business.edit", 1) }}'" value="Update Businesses" />
-        @else
+        @else --}}
 
             
             
@@ -66,18 +66,31 @@
                                 {{-- <h5>Municipality</h5> --}}
                                 {{-- <label style="text-align: center;">Municipality</label> --}}
                                 <div class="col-sm-10">
-                                    <select id="cityCode" name="cityCode">
-                                        <option value="0" @if(Session::get('regionId') === 0) selected @endif>
-                                            Select Region (Admin)
-                                        </option>
-                                        @foreach($regions as $value)
-                                            @if ($value)
-                                                <option value="{{ $value['id'] }}"  @if(Session::get('regionId') === $value['id']) selected @endif>
-                                                    {{ $value['geog_text'] }}
-                                                </option>
-                                            @endif
-                                        @endforeach
-                                    </select>
+                                    @if(auth()->user()->email === 'test@test.com')
+                                        <select id="cityCode" name="cityCode">
+                                            <option value="0" @if(Session::get('regionId') === 0) selected @endif>
+                                                Select Region (Admin)
+                                            </option>
+                                            @foreach($regions as $value)
+                                                @if ($value)
+                                                    <option value="{{ $value['id'] }}"  @if(Session::get('regionId') === $value['id']) selected @endif>
+                                                        {{ $value['geog_text'] }}
+                                                    </option>
+                                                @endif
+                                            @endforeach
+                                        </select>
+                                    @else
+                                        @php
+                                            $regionName = Demography::where('id',  auth()->user()->city)->value('geog_text');
+                                            // $query = Dashboard::query();
+                                            // $regionId = auth()->user()->city;
+                                            // if ($regionId !== null && $regionId != 0) {
+                                            //     $query = $query->where('CSDID', $regionId);
+                                            // }
+                                            // $city = $query->first();
+                                        @endphp
+                                        <input type="text" id="regionName" name="regionName" value="{{ $regionName }}" readonly placeholder="{{ $regionName }}">
+                                    @endif
                                 </div>
                             </div>
                             
@@ -257,10 +270,10 @@
                     </div>
                 </div>
             </form>
-        @endif
+        {{-- @endif
     @else
         <p>User not authenticated</p>
-    @endif
+    @endif --}}
 </div>
 
 

@@ -10,22 +10,22 @@
         @method('PUT')
 
         <!-- Your form fields for editing the data go here -->
-        <label for="region">Region:</label>
+        <label for="region">Region:</label><br>
         <input type="text" name="region" value="{{ $dataToEdit->region }}"><br>
 
-        <label for="year">Year:</label>
+        <label for="year">Year:</label><br>
         <input type="text" name="year" value="{{ $dataToEdit->year }}"><br>
 
-        <label for="industry">Industry:</label>
+        <label for="industry">Industry:</label><br>
         <input type="text" name="industry" value="{{ $dataToEdit->industry }}"><br>
 
-        <label for="business">Business:</label>
+        <label for="business">Business:</label><br>
         <input type="text" name="business" value="{{ $dataToEdit->business }}"><br>
 
-        <label for="employee">Employee:</label>
+        <label for="employee">Employee:</label><br>
         <input type="text" name="employee" value="{{ $dataToEdit->employee }}"><br>
 
-        <label for="location">Location:</label>
+        <label for="location">Location:</label><br>
         <input type="text" name="location" value="{{ $dataToEdit->location }}"><br>
         <!-- Other form fields -->
 

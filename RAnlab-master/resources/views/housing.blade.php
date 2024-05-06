@@ -4,8 +4,8 @@
     </x-slot>
     </div>
 
-    <div>
-        This section will contain information about Housing.
+    <div class="table_outer_container">
+        <livewire:housing-table></livewire:housing-table>
     </div>
 
 </x-app-layout>

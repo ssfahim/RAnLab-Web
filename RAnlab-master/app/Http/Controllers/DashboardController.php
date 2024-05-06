@@ -5,7 +5,10 @@ use App\Models\Dashboard;
 use App\Models\Business;
 use App\Models\AgeGender;
 use App\Models\User;
-// use App\Charts\BirthsDeathsChart;
+use App\Charts\AgeGroupsChart;
+use App\Charts\AgeCharacterChart;
+use App\Charts\LabourEducationPieChart;
+use App\Charts\EmploymentByOccupationBarChart;
 use Illuminate\Http\Request;
 use ArielMejiaDev\LarapexCharts\LarapexChart;
 use Session;
@@ -13,23 +16,67 @@ use Session;
 class DashboardController extends Controller
 {
 
-    public function index(Request $request, LarapexChart $chart){
-
-
-        
-        // dd($ageGenderData);
-
+    public function index(Request $request, LarapexChart $chart, 
+    AgeGroupsChart $ageChart, 
+    LabourEducationPieChart $labourEducation, 
+    EmploymentByOccupationBarChart $EmploymentByOccupationBarChart, 
+    AgeCharacterChart $AgeCharacterChart)
+    {
         $regionId = Session::has('regionId') ? Session::get('regionId') : 91;
+
+        $regionMap = [
+            304 => 'BaieVerte',
+            331 => 'BirdCove',
+            208 => 'BishopsFalls',
+            210 => 'Botwood',
+            315 => 'Conche',
+            188 => 'CornerBrook',
+            192 => 'CoxsCove',
+            175 => 'DeerLake',
+            330 => 'FlowersCove',
+            207 => 'GFW',
+            185 => 'Gillams',
+            195 => 'HughesBrook',
+            190 => 'HumberArmSouth',
+            360 => 'HVGB',
+            196 => 'IrishtownSummerside',
+            362 => 'LabCity',
+            193 => 'LarkHarbour',
+            332 => 'MainBrook',
+            187 => 'MasseyDrive',
+            191 => 'McIvers',
+            194 => 'Meadows',
+            197 => 'MountMoriah',
+            183 => 'Pasadena',
+            209 => 'Peterview',
+            314 => 'RoddicktonBA',
+            287 => 'Springdale',
+            333 => 'StAnthony',
+            182 => 'SteadyBrook',
+            336 => 'StLunaireGriquet',
+            // 91 => 'StJohns',
+            363 => 'Wabush',
+            198 => 'YorkHarbour',
+        ];
+        $showSpecificPart  = true;
+        // $pdf = PDF::loadView('pages.newblade', compact('printthis'));
 
         $users = User::all();
         $emails = $users->pluck('email');
-        // dd(auth()->user()->city);
 
         if(auth()->user()-> email === 'test@test.com'){
             $regionId = Session::has('regionId') ? Session::get('regionId') : 91;
+            $pdfFileName = $regionMap[$regionId] ?? null;
         }
         else{
             $regionId = auth()->user()->city;
+            $pdfFileName = $regionMap[$regionId] ?? null;
+        }
+        if(request()->has('download_pdf')) {
+            if ($pdfFileName === null) {
+                return response()->json(['message' => 'Your data is not available at the moment!'], 200);
+                // return redirect()->back()->with('message', 'Your data is not available at the moment!');
+            }
         }
         $ageGenderData = AgeGender::all();
         $regionData = null;
@@ -125,11 +172,19 @@ class DashboardController extends Controller
             $birthChart = null;
         }
 
+        // dd($regionId);
+
         return view('dashboard', 
             [   
                 // 'ageData' => $ageData,
                 // 'menData' => $menData,
                 // 'womenData' => $womenData,
+                'showSpecificPart' => $showSpecificPart,
+                'pdfFileName' => $pdfFileName,
+                'AgeCharacterChart' => $AgeCharacterChart,
+                'EmploymentByOccupationBarChart' => $EmploymentByOccupationBarChart->build($regionId),
+                'ageChart' => $ageChart->build($regionId),
+                'labourEducation' => $labourEducation->build($regionId),
                 'regionData' => $regionData,
                 'data' => $data,
                 'Age_distribution_65_years_and_over' => $Age_distribution_65_years_and_over,

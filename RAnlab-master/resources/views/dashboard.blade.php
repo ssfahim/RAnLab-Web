@@ -18,7 +18,7 @@
                     	We've made a custom report for your region including projections and data summaries.
                     </div><!--DASHBOARD_CTA_BODY-->
                     <div class="dashboard_cta_btn_container">
-                    	<button type="button" class="cta_button" onclick="window.location.href='/reports/FlowersCove_RAnLab_MNL_FactSheets_Combined_Report.pdf';">
+                    	<button type="button" class="cta_button" onclick="window.location.href='/reports/{{ $pdfFileName }}_RAnLab_MNL_FactSheets_Combined Report.pdf';">
                         	Download Now
                         </button>
                     </div><!--DASHBOARD_CTA_BTN_CONTAINER-->
@@ -222,89 +222,271 @@
     display: none;
     z-index: 99;
 }
-</style>
-<div class="dashboard_row"  id="demography">
-    <div class="dashboard_row_half dashboard_row_item">
-        {{-- Population Info --}}
-        @if($cityData)
-            <div id="city-data">
-                <h3 style="font: 800 40px monospace;text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">{{ $selectedCity }}</h3><br>
-                <!-- Display city data here -->
-                <table style="display: flex;
-                    /* width: 80%; */
-                    flex-direction: column;
-                    align-items: center;
-                    justify-content: center;
-                    font-family: sans-serif;
-                    background-color: #e0f2ff; /* Light blue background */
-                    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);">
-                        <tr>
-                            <td>
-                                <div class="counter" data-target="{{$Population_2021}}" style="font: 800 40px monospace; padding: 2rem; margin-bottom: 1rem; text-align: center; width: 150px; display: inline-block;"></div>
-                            </td>
-                            <td rowspan=4>
-                                <div style="border: 2px solid black; ">
-                                    <div class="counter-container" style="font: 800 40px monospace; padding: 2rem; margin-bottom: 1rem; text-align: center; width: 140px; display: flex; align-items: center;">
-                                        <div class="counters" data-target="{{$Population_percentage_change_2016_to_2021}}" style="margin-right: 10px;"></div>
-                                        <img class="arrow-icon" src="" alt="" style="width: 35px; height: auto;">
-                                    </div>
-                                    <div style="font: 800 20px monospace; text-align:center">
-                                        Population <br>percentage change
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="1" style="font: 800 20px monospace;">
-                                <p>Population in 2021</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="counter" data-target="{{$Population_2016}}" style="font: 800 40px monospace; padding: 2rem; margin-bottom: 1rem; text-align: center; width: 150px; display: inline-block; margin-right: 1rem;"></div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="1" style="font: 800 20px monospace; align-items:inherit">
-                                <p>Population in 2016</p>
-                            </td>
-                        </tr>
-                        
-                    </table>
-            </div>
-        @endif
-        <button onclick="showPopup()" style="float:right;"><img src="/images/help.svg" alt="" style="width: 35px; height: auto;"></button>
 
-        <div class="popup" id="popup">
-            <div class="modal-header">
-                <div class="title">Example Modal</div>
-              </div>
-              <div class="modal-body">
-                <div class="flourish-embed flourish-hierarchy" data-src="visualisation/15588597"><script src="https://public.flourish.studio/resources/embed.js"></script></div>            
+@media print{
+    body * {
+        visibility: hidden;
+    }
+    .print-container, .print-container * {
+        visibility: visible;
+    }
+}
+</style>
+@if($showSpecificPart)
+    <div class="dashboard_row print-container"  id="demography">
+        <div class="print-container">
+            {{-- City Population Data --}}
+            <div class="dashboard_row_half dashboard_row_item">
+                {{-- Population Info --}}
+                @if($cityData)
+                    <div id="city-data">
+                        <h3 style="font: 800 40px monospace;text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">{{ $selectedCity }}</h3><br>
+                        <!-- Display city data here -->
+                        <table style="display: flex;
+                            /* width: 80%; */
+                            flex-direction: column;
+                            align-items: center;
+                            justify-content: center;
+                            font-family: sans-serif;
+                            background-color: #e0f2ff; /* Light blue background */
+                            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);">
+                                <tr>
+                                    <td>
+                                        <div class="counter" data-target="{{$Population_2021}}" style="font: 800 40px monospace; padding: 2rem; margin-bottom: 1rem; text-align: center; width: 150px; display: inline-block;"></div>
+                                    </td>
+                                    {{-- <td rowspan=4>
+                                        <div style="border: 2px solid black; ">
+                                            <div class="counter-container" style="font: 800 40px monospace; padding: 2rem; margin-bottom: 1rem; text-align: center; width: 140px; display: flex; align-items: center;">
+                                                <div class="counters" data-target="{{$Population_percentage_change_2016_to_2021}}" style="margin-right: 10px;"></div>
+                                                <img class="arrow-icon" src="" alt="" style="width: 35px; height: auto;">
+                                            </div>
+                                            <div style="font: 800 20px monospace; text-align:center">
+                                                Population <br>percentage change
+                                            </div>
+                                        </div>
+                                    </td> --}}
+                                </tr>
+                                <tr>
+                                    <td colspan="1" style="font: 800 20px monospace;">
+                                        <p>Population in 2021</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="counter" data-target="{{$Population_2016}}" style="font: 800 40px monospace; padding: 2rem; margin-bottom: 1rem; text-align: center; width: 150px; display: inline-block; margin-right: 1rem;"></div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="1" style="font: 800 20px monospace; align-items:inherit">
+                                        <p>Population in 2016</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div style="border: 2px solid black;">
+                                            <div class="counter-container" style="font: 800 40px monospace; padding: 2rem; margin-bottom: 1rem; text-align: center; width: 140px; display: flex; align-items: center;">
+                                                <div class="counters" data-target="{{$Population_percentage_change_2016_to_2021}}" style="margin-right: 10px;"></div>
+                                                <img class="arrow-icon" src="" alt="" style="width: 35px; height: auto;">
+                                            </div>
+                                        </div>
+                                        
+                                        {{-- <div class="counter" data-target="{{$Population_percentage_change_2016_to_2021}}" style="font: 800 40px monospace; padding: 2rem; margin-bottom: 1rem; text-align: center; width: 150px; display: inline-block; margin-right: 1rem;"></div> --}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="1" style="font: 800 20px monospace; align-items:inherit">
+                                        <p style="text-align: center;
+                                        "> Population <br>percentage change</p>
+                                    </td>
+                                </tr>
+                                
+                            </table>
+                    </div>
+                @endif
+                <button onclick="showPopup()" style="float:right;"><img src="/images/help.svg" alt="" style="width: 35px; height: auto;"></button>
+
+                <div class="popup" id="popup">
+                    <div class="modal-header">
+                        <div class="title">Example Modal</div>
+                    </div>
+                    <div class="modal-body">
+                        <div class="flourish-embed flourish-hierarchy" data-src="visualisation/15588597"><script src="https://public.flourish.studio/resources/embed.js"></script></div>            
+                    </div>
+                    <x-nav-link :href="route('demography.index')">
+                        <i><u>{{ __('See All Details') }}</u></i>
+                    </x-nav-link>
+                    <br>
+                    <i>SOURCE: <u><a href="https://www12.statcan.gc.ca/census-recensement/2021/dp-pd/prof/search-recherche/lst/results-resultats.cfm?Lang=E&GEOCODE=10">Census Profile Newfoundland and Labrador</a></u> </i>    
+                    <br>
+                    <button onclick="hidePopup()" style="border: 1px solid black; background-color: lightgray;  display: block; margin: 0 auto; height:30px; width:50px;">Close</button>
+                </div>
+                <div id="overlay"></div>
             </div>
-            <x-nav-link :href="route('demography.index')">
-                <i><u>{{ __('See All Details') }}</u></i>
-            </x-nav-link>
-            <br>
-            <i>SOURCE: <u><a href="https://www12.statcan.gc.ca/census-recensement/2021/dp-pd/prof/search-recherche/lst/results-resultats.cfm?Lang=E&GEOCODE=10">Census Profile Newfoundland and Labrador</a></u> </i>    
-            <br>
-            <button onclick="hidePopup()" style="border: 1px solid black; background-color: lightgray;  display: block; margin: 0 auto; height:30px; width:50px;">Close</button>
         </div>
-        <div id="overlay"></div>
+        
+
+        {{-- Age Characteristics --}}
+        <div class="dashboard_row_half dashboard_row_item">
+            <h3 style="font: 800 30px monospace; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">Age characteristics</h3><br>
+            <div style="display: flex;
+                /* width: 80%; */
+                /* height: auto; */
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                font-family: sans-serif;
+                background-color: #e0f2ff; /* Light blue background */
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); ">
+                <table>
+                    <tr>
+                        <td>
+                            <div class="counter-container" style="font: 800 40px monospace; padding: 2rem; margin-bottom: 1rem; text-align: center; width: 140px; display: flex; align-items: center;">
+                                <div class="counter" data-target="{{$Age_distribution_0_to_14}}" style="margin-right: 10px;"></div>
+                            </div>
+                            <div style="font: 800 20px monospace; text-align:center">
+                                Age distribution <br>0 to 14
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="counter-container" style="font: 800 40px monospace; padding: 2rem; margin-bottom: 1rem; text-align: center; width: 140px; display: flex; align-items: center;">
+                                <div class="counter" data-target="{{$Age_distribution_15_to_64}}" style="margin-right: 10px;"></div>
+                            </div>
+                            <div style="font: 800 20px monospace; text-align:center">
+                                Age distribution <br>15 to 64
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="counter-container" style="font: 800 40px monospace; padding: 2rem; margin-bottom: 1rem; text-align: center; width: 140px; display: flex; align-items: center;">
+                                <div class="counter" data-target="{{$Age_distribution_65_years_and_over}}" style="margin-right: 10px;"></div>
+                            </div>
+                            <div style="font: 800 20px monospace; text-align:center">
+                                Age distribution <br>65 years and over
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                {{ $AgeCharacterChart->container() }}
+                
+                {{ $AgeCharacterChart->script() }}
+            </div>
+            <div class="links" id="links">
+                <x-nav-link :href="route('demography.index')">
+                    <i><u>{{ __('See All Details') }}</u></i>
+                </x-nav-link>
+                <br><i>SOURCE: <u><a href="https://www12.statcan.gc.ca/census-recensement/2021/dp-pd/prof/search-recherche/lst/results-resultats.cfm?Lang=E&GEOCODE=10">Census Profile Newfoundland and Labrador</a></u> </i>    
+            </div>
+        </div>
+        <div class="clear"></div><!--CLEAR-->
     </div>
+@endif
+<div class="dashboard_row print-container"  id="demography">
+    <div class="print-container">
+        {{-- City Population Data --}}
+        <div class="dashboard_row_half dashboard_row_item">
+            {{-- Population Info --}}
+            @if($cityData)
+                <div id="city-data">
+                    <h3 style="font: 800 40px monospace;text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">{{ $selectedCity }}</h3><br>
+                    <!-- Display city data here -->
+                    <table style="display: flex;
+                        /* width: 80%; */
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                        font-family: sans-serif;
+                        background-color: #e0f2ff; /* Light blue background */
+                        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);">
+                            <tr>
+                                <td>
+                                    <div class="counter" data-target="{{$Population_2021}}" style="font: 800 40px monospace; padding: 2rem; margin-bottom: 1rem; text-align: center; width: 150px; display: inline-block;"></div>
+                                </td>
+                                {{-- <td rowspan=4>
+                                    <div style="border: 2px solid black; ">
+                                        <div class="counter-container" style="font: 800 40px monospace; padding: 2rem; margin-bottom: 1rem; text-align: center; width: 140px; display: flex; align-items: center;">
+                                            <div class="counters" data-target="{{$Population_percentage_change_2016_to_2021}}" style="margin-right: 10px;"></div>
+                                            <img class="arrow-icon" src="" alt="" style="width: 35px; height: auto;">
+                                        </div>
+                                        <div style="font: 800 20px monospace; text-align:center">
+                                            Population <br>percentage change
+                                        </div>
+                                    </div>
+                                </td> --}}
+                            </tr>
+                            <tr>
+                                <td colspan="1" style="font: 800 20px monospace;">
+                                    <p>Population in 2021</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="counter" data-target="{{$Population_2016}}" style="font: 800 40px monospace; padding: 2rem; margin-bottom: 1rem; text-align: center; width: 150px; display: inline-block; margin-right: 1rem;"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="1" style="font: 800 20px monospace; align-items:inherit">
+                                    <p>Population in 2016</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div style="border: 2px solid black;">
+                                        <div class="counter-container" style="font: 800 40px monospace; padding: 2rem; margin-bottom: 1rem; text-align: center; width: 140px; display: flex; align-items: center;">
+                                            <div class="counters" data-target="{{$Population_percentage_change_2016_to_2021}}" style="margin-right: 10px;"></div>
+                                            <img class="arrow-icon" src="" alt="" style="width: 35px; height: auto;">
+                                        </div>
+                                    </div>
+                                    
+                                    {{-- <div class="counter" data-target="{{$Population_percentage_change_2016_to_2021}}" style="font: 800 40px monospace; padding: 2rem; margin-bottom: 1rem; text-align: center; width: 150px; display: inline-block; margin-right: 1rem;"></div> --}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="1" style="font: 800 20px monospace; align-items:inherit">
+                                    <p style="text-align: center;
+                                    "> Population <br>percentage change</p>
+                                </td>
+                            </tr>
+                            
+                        </table>
+                </div>
+            @endif
+            <button onclick="showPopup()" style="float:right;"><img src="/images/help.svg" alt="" style="width: 35px; height: auto;"></button>
+
+            <div class="popup" id="popup">
+                <div class="modal-header">
+                    <div class="title">Example Modal</div>
+                </div>
+                <div class="modal-body">
+                    <div class="flourish-embed flourish-hierarchy" data-src="visualisation/15588597"><script src="https://public.flourish.studio/resources/embed.js"></script></div>            
+                </div>
+                <x-nav-link :href="route('demography.index')">
+                    <i><u>{{ __('See All Details') }}</u></i>
+                </x-nav-link>
+                <br>
+                <i>SOURCE: <u><a href="https://www12.statcan.gc.ca/census-recensement/2021/dp-pd/prof/search-recherche/lst/results-resultats.cfm?Lang=E&GEOCODE=10">Census Profile Newfoundland and Labrador</a></u> </i>    
+                <br>
+                <button onclick="hidePopup()" style="border: 1px solid black; background-color: lightgray;  display: block; margin: 0 auto; height:30px; width:50px;">Close</button>
+            </div>
+            <div id="overlay"></div>
+        </div>
+    </div>
+    
 
     {{-- Age Characteristics --}}
     <div class="dashboard_row_half dashboard_row_item">
         <h3 style="font: 800 30px monospace; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">Age characteristics</h3><br>
         <div style="display: flex;
-        /* width: 80%; */
-        /* height: auto; */
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        font-family: sans-serif;
-        background-color: #e0f2ff; /* Light blue background */
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); ">
+            /* width: 80%; */
+            /* height: auto; */
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: sans-serif;
+            background-color: #e0f2ff; /* Light blue background */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); ">
             <table>
                 <tr>
                     <td>
@@ -337,63 +519,22 @@
                     </td>
                 </tr>
             </table>
+            {{ $AgeCharacterChart->container() }}
+            
+            {{ $AgeCharacterChart->script() }}
         </div>
-        <x-nav-link :href="route('demography.index')">
-            <i><u>{{ __('See All Details') }}</u></i>
-        </x-nav-link>
-        <br><i>SOURCE: <u><a href="https://www12.statcan.gc.ca/census-recensement/2021/dp-pd/prof/search-recherche/lst/results-resultats.cfm?Lang=E&GEOCODE=10">Census Profile Newfoundland and Labrador</a></u> </i>
+        <div class="links" id="links">
+            <x-nav-link :href="route('demography.index')">
+                <i><u>{{ __('See All Details') }}</u></i>
+            </x-nav-link>
+            <br><i>SOURCE: <u><a href="https://www12.statcan.gc.ca/census-recensement/2021/dp-pd/prof/search-recherche/lst/results-resultats.cfm?Lang=E&GEOCODE=10">Census Profile Newfoundland and Labrador</a></u> </i>    
+        </div>
     </div>
     <div class="clear"></div><!--CLEAR-->
 </div>
 
-{{-- House Dwellings --}}
-<div class="dashboard_row"  id="housing">
-    <div class="dashboard_row_half dashboard_row_item">
-        <h3 style="font: 800 30px monospace; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">Household and dwelling characteristics</h3><br>
-        <div style="display: flex;
-        /* width: 80%; */
-        /* height: auto; */
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        font-family: sans-serif;
-        background-color: #e0f2ff; /* Light blue background */
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); ">
-        
-            <table>
-                <tr>
-                    <td>
-                        <div class="counter-container" style="font: 800 40px monospace; padding: 2rem; margin-bottom: 1rem; text-align: center; width: 140px; display: flex; align-items: center;">
-                            <div class="counter" data-target="{{$Private_dwellings_occupied_by_usual_residents}}" style="margin-right: 10px;"></div>
-                        </div>
-                        <div style="font: 800 20px monospace; text-align:center">
-                            Private dwellings <br>occupied by <br>usual residents
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="counter-container" style="font: 800 40px monospace; padding: 2rem; margin-bottom: 1rem; text-align: center; width: 140px; display: flex; align-items: center;">
-                            <div class="counter" data-target="{{$Total_private_dwellings}}" style="margin-right: 10px;"></div>
-                        </div>
-                        <div style="font: 800 20px monospace; text-align:center">
-                            Total <br>private Dwelling
-                        </div>
-                    </td>
-                </tr>
-            </table>
-        </div>
-        <x-nav-link :href="route('demography.index')">
-            <i><u>{{ __('See All Details') }}</u></i>
-        </x-nav-link>
-        <br>
-        <i>SOURCE: <u><a href="https://www12.statcan.gc.ca/census-recensement/2021/dp-pd/prof/search-recherche/lst/results-resultats.cfm?Lang=E&GEOCODE=10">Census Profile Newfoundland and Labrador</a></u> </i>
-    </div>
-    <div id="overlay"></div>
-</div>
-
 {{-- Population Pyramid --}}
-<div class="dashboard_row" style="margin-top: 150px;">
+<div class="dashboard_row print-container" style="margin-top: 15px;" id="populationPyramid">
     <div class="dashboard_row_full dashboard_row_item">
         <h3 style="font: 800 30px monospace; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">Population Pyramid</h3><br>
         <div id="chartDiv" class="container"></div>
@@ -744,9 +885,92 @@
     <div class="clear"></div><!--CLEAR-->
 </div>
 
+
+<div class="dashboard_row print-container"  id="housing">
+    {{-- House Dwellings --}}
+    <div class="dashboard_row_half dashboard_row_item">
+        <h3 style="font: 800 30px monospace; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">Household and dwelling characteristics</h3><br>
+        <div style="display: flex;
+        /* width: 80%; */
+        /* height: auto; */
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-family: sans-serif;
+        background-color: #e0f2ff; /* Light blue background */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); ">
+        
+            <table>
+                <tr>
+                    <td>
+                        <div class="counter-container" style="font: 800 40px monospace; padding: 2rem; margin-bottom: 1rem; text-align: center; width: 140px; display: flex; align-items: center;">
+                            <div class="counter" data-target="{{$Private_dwellings_occupied_by_usual_residents}}" style="margin-right: 10px;"></div>
+                        </div>
+                        <div style="font: 800 20px monospace; text-align:center">
+                            Private dwellings <br>occupied by <br>usual residents
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="counter-container" style="font: 800 40px monospace; padding: 2rem; margin-bottom: 1rem; text-align: center; width: 140px; display: flex; align-items: center;">
+                            <div class="counter" data-target="{{$Total_private_dwellings}}" style="margin-right: 10px;"></div>
+                        </div>
+                        <div style="font: 800 20px monospace; text-align:center">
+                            Total <br>private Dwelling
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <x-nav-link :href="route('housing.index')">
+            <i><u>{{ __('See All Details') }}</u></i>
+        </x-nav-link>
+        <br>
+        <i>SOURCE: <u><a href="https://www12.statcan.gc.ca/census-recensement/2021/dp-pd/prof/search-recherche/lst/results-resultats.cfm?Lang=E&GEOCODE=10">Census Profile Newfoundland and Labrador</a></u> </i>
+    </div>
+     <!-- Age Groups Chart -->
+     <div class="dashboard_row_half dashboard_row_item">
+        {{ $ageChart->container() }}
+        <x-nav-link :href="route('housing.index')">
+            <i><u>{{ __('See All Details') }}</u></i>
+        </x-nav-link>
+        <br>
+        <i>SOURCE: <u><a href="https://www12.statcan.gc.ca/census-recensement/2021/dp-pd/prof/search-recherche/lst/results-resultats.cfm?Lang=E&GEOCODE=10">Census Profile Newfoundland and Labrador</a></u> </i>
+    </div><!--DASHBOARD_ROW_HALF-->
+    <div id="overlay"></div>
+    <div class="clear"></div><!--CLEAR-->
+</div>
+
+<div class="dashboard_row print-container"   id="labourSupply">
+    {{-- <h3 style="font: 800 30px monospace; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">Labour Supply</h3><br> --}}
+    {{-- Employment by Occupation --}}
+    <div class="dashboard_row_half dashboard_row_item">
+        {{ $EmploymentByOccupationBarChart->container() }}
+        <x-nav-link :href="route('laboursuppply.index')">
+            <i><u>{{ __('See All Details') }}</u></i>
+        </x-nav-link>
+        <br>
+        <i>SOURCE: <u><a href="https://www12.statcan.gc.ca/census-recensement/2021/dp-pd/prof/search-recherche/lst/results-resultats.cfm?Lang=E&GEOCODE=10">Census Profile Newfoundland and Labrador</a></u> </i>
+    </div>
+    {{-- labor education --}}
+    <div class="dashboard_row_half dashboard_row_item">
+        {{ $labourEducation->container() }}
+        <x-nav-link :href="route('laboursuppply.index')">
+            <i><u>{{ __('See All Details') }}</u></i>
+        </x-nav-link>
+        <br>
+        <i>SOURCE: <u><a href="https://www12.statcan.gc.ca/census-recensement/2021/dp-pd/prof/search-recherche/lst/results-resultats.cfm?Lang=E&GEOCODE=10">Census Profile Newfoundland and Labrador</a></u> </i>
+    </div>
+    <div class="clear"></div><!--CLEAR-->
+</div>
+
+
+
+
+
 {{-- MAP --}}
 <div class="dashboard_row">
-    <div class="dashboard_row_full dashboard_row_item">
         <b>Businesses in Newfoundland and Labrador</b>
         <div id="map"></div>
     </div><!--DASHBOARD_ROW_FULL-->
@@ -1355,4 +1579,7 @@ Plotly.newPlot('map', [{
 
  
 </script>
+{{ $ageChart->script() }}
+{{ $labourEducation->script() }}
+{{ $EmploymentByOccupationBarChart->script() }}
 </x-app-layout>

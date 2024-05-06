@@ -4,13 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Business;
 use App\Models\Demography;
-// use Illuminate\Support\Str;
-// use App\Models\Review;
-
-/////////////////////////  This is the part that I am changing  ////////////////////////////
+use App\Models\HousingReviewRequest;
 use App\Models\Category;
-/////////////////////////  This is the part that I am changing  ////////////////////////////
-
 use Auth;
 use Date;
 use Illuminate\Http\Request;
@@ -29,31 +24,81 @@ class ReviewController extends Controller
 /////////////////////////  This is the part that I am changing  ////////////////////////////
 public function index()
 {
+    // $data = category::all();
+    // $dataHousingRequests = HousingReviewRequest::all();
+    
+    return view('review-amend');
+}
+
+public function business()
+{
     $data = category::all();
     // dd($data); // Add this line
     
     return view('category', ['data' => $data]);
 }
 
-
+public function housing()
+{
+    $dataHousingRequests = HousingReviewRequest::all();
    
+    return view('review-view',
+    [
+        'dataHousingRequests' => $dataHousingRequests,
+
+    ]);
+}
+
 public function add(Request $request)
 {
-    // $regionName = $cityNames[$request->region];
-    $regionName = Demography::where('id',  $request->cityCode)->value('geog_text');
+    if(auth()->user()->email == "test@test.com")
+    {
+        // $dataToAccept = Category::find($id);
+
+        // Split the location coordinates into latitude and longitude
+        $coordinates = explode(', ', $request->location);
+        $latitude = $coordinates[0];
+        $longitude = $coordinates[1];
+
+        // Save $dataToAccept to the 'business' table
+        Business::create([
+            'last_action' => 'added', 
+            'region' => $request->cityCode,
+            'year' => $request->year,
+            'industry' => $request->industry,
+            'name' => $request->business, 
+            'employment' => $request->employee,
+            'location' => 'https://www.google.com/maps?q='.$latitude.','.$longitude,
+            'latitude' => $latitude,
+            'longitude' =>  $longitude,
+            'is_master' => true,
+            'master_id' => 1,
+            'is_draft' => false,
+            'created_by_id' => auth()->id(), 
+            'updated_by_id' => auth()->id(),
+        ]);
+        return redirect()->back()->with('message', 'Business Successfully Added to the list!');
+
+    }
+    else{
+        $regionName = Demography::where('id',  auth()->user()->city)->value('geog_text');
     
-    $data = new Category;
-    $data->region = $regionName;
-    $data->regionId = $request->cityCode;
-    $data->year = $request->year;
-    $data->industry = $request->industry;
-    $data->business = $request->business;
-    $data->employee = $request->employee;
-    $data->location = $request->location;
+        $data = new Category;
+        $data->region = $regionName;
+        $data->regionId = auth()->user()->city;
+        $data->year = $request->year;
+        $data->industry = $request->industry;
+        $data->business = $request->business;
+        $data->employee = $request->employee;
+        $data->location = $request->location;
 
-    $data->save();
+        $data->save();
 
-    return redirect()->back()->with('message', 'Request sent Successfully!');
+        return redirect()->back()->with('message', 'Request sent Successfully!');
+    }
+
+    // $regionName = $cityNames[$request->region];
+    
 }
 
 /////////////////////////  This is the part that I am changing  ////////////////////////////
@@ -66,6 +111,11 @@ public function add(Request $request)
     public function create()
     {
         //
+    }
+
+    public function message()
+    {
+        return view('suggestionRequestForm');
     }
 
     public function delete($id)
@@ -111,7 +161,7 @@ public function add(Request $request)
 
     public function edit_data($id) {
         try {
-            $dataToEdit = category::findOrFail($id);
+            $dataToEdit = Category::findOrFail($id);
             return view('edit', ['dataToEdit' => $dataToEdit]);
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             dd("Record not found");

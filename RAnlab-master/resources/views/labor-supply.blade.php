@@ -4,8 +4,8 @@
     </x-slot>
     </div>
 
-    <div>
-        This section will contain information about Labour Supply.
+    <div class="table_outer_container">
+        <livewire:labour-table></livewire:labour-table>
     </div>
 
 </x-app-layout>
