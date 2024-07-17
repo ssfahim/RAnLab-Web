@@ -1,8 +1,9 @@
 <aside x-data="{ open: false }">
     <!-- Primary Navigation Menu -->
     <!-- Navigation Links -->
-    <div class="sidebar_nav_column">
+    <div class="sidebar_nav_column" style="background-color: #FFFFFF; color: black;">
 
+        {{--- Heading and Compare Town Link ---}}
         <div class="sidebar_heading">
             <div class="sidebar_heading_inner">
                 {{-- <select id="regionSelect">
@@ -17,27 +18,30 @@
                         @endif
                     @endforeach
                 </select> --}}
-                @if (auth()->user()->email === 'test@test.com') 
+                <h4>Municipality</h4>
+                {{-- @if (auth()->user()->email === 'test@test.com')  --}}
 
                     <form id="city-form" method="GET">
                         @csrf
                         <select id="regionSelect">
-                            <option value="0" @if(Session::get('regionId', 91) === 0) selected @endif>
-                                Select Region (Admin)
+                            <option value="0" @if(Session::get('regionId', auth()->user()->city) === 0) selected @endif>
+                                Select Region
                             </option>
                             @foreach($regions as $value)
                                 @if ($value)
-                                    <option value="{{ $value['id'] }}"  @if(Session::get('regionId', 91) === $value['id']) selected @endif>
+                                    <option value="{{ $value['id'] }}" @if(Session::get('regionId', auth()->user()->city) === $value['id']) selected @endif>
                                         {{ $value['geog_text'] }}
                                     </option>
                                 @endif
                             @endforeach
                         </select>
                     </form>
-                {{-- @else
-                    <h2>Client Panel</h2> --}}
-                @endif
-                
+                {{-- @endif --}}
+                <div class="sidebar_nav_item" style="color: black;">
+                    <x-nav-link :href="route('customDashboard.index')" :active="request()->routeIs('customDashboard.index')">
+                        {{ __('Compare Towns') }}
+                    </x-nav-link>
+                </div><!--SIDEBAR_NAV_ITEM-->
             </div><!--SIDBAR_HEADING_INNER-->
         </div><!--SIDEBAR_HEADING-->
 
@@ -54,38 +58,56 @@
             </div><!--SIDBAR_HEADING_INNER-->
         </div><!--SIDEBAR_HEADING-->
 
-        <!-- EDIT BAR -->
-        <div class="sidebar_heading">
+         <!-- Download CSV -->
+         <div class="sidebar_heading">
         	<div class="sidebar_heading_inner">
                 <div class="sidebar_heading_icon">
-                    <img src="/images/edit.svg">
+                    <button onclick="showsidebarPopup()" style="float:left; margin-top: 10px;">
+                        <img src="/images/download.svg" style="width: 35px; height: auto;">
+                    </button>
                 </div><!--SIDEBAR_HEADING_ICON-->
-                <div class="sidebar_heading_text">Edit-bar</div><!--SIDEBAR_HEADING_TEXT-->
+                <div class="sidebar_heading_text">
+                    <p class="btn btn-primary" onclick="showsidebarPopup()">Download Data</p>
+                    
+                    {{-- <div id="sidebarOverlay"></div> --}}
+                </div><!--SIDEBAR_HEADING_TEXT-->
+                <div class="sidebarPopup" id="sidebarPopup">
+                    <div class="modal-header">
+                        <div class="title">Example Modal</div>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>DataSets</th>
+                                    <th>Download CSV File</th>
+                                    {{-- <th>Value 2</th> --}}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                    <tr>
+                                        <td>Population Data</td>
+                                        <td><a href="{{ route('download-population-csv') }}" class="btn btn-primary">Population CSV</a></td>
+                                        {{-- <td>6.5344</td> --}}
+                                    </tr>
+                                    <tr>
+                                        <td>Housing Data</td>
+                                        <td><a href="{{ route('download-housing-csv') }}" class="btn btn-primary">Housing CSV</a></td>
+                                        {{-- <td>3.232</td> --}}
+                                    </tr>
+                                    <tr>
+                                        <td>Labour Data</td>
+                                        <td><a href="{{ route('download-labour-csv') }}" class="btn btn-primary">Labour CSV</a></td>
+                                        {{-- <td>9.32</td> --}}
+                                    </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <button onclick="hidesidebarPopup()" style="border: 1px solid black; background-color: lightgray;  display: block; margin: 0 auto; height:30px; width:50px;">Close</button>
+                </div>
                 <div class="clear"></div><!--CLEAR-->
             </div><!--SIDBAR_HEADING_INNER-->
         </div><!--SIDEBAR_HEADING-->
-
-        <div class="sidebar_nav_item">
-            <x-nav-link :href="route('business.index')" :active="request()->routeIs('business.index')">
-                {{ __('Business') }}
-            </x-nav-link>
-        </div><!--SIDEBAR_NAV_ITEM-->
-
-        <div class="sidebar_nav_item">
-            <x-nav-link :href="route('housing_review.index')" :active="request()->routeIs('housing.index')">
-                {{ __('Dwelling') }}
-            </x-nav-link>
-		</div><!--SIDEBAR_NAV_ITEM-->
-
-        <div class="uploads">
-            <form method="POST" action="{{route("dashboard.upload.post")}}" enctype="multipart/form-data">
-                @csrf
-                <div class="mb-3">
-                    <input class="form-control" name="file" type="file" id="formFile" style="background: lightgrey;border: none;">
-                </div>
-                <input type="submit" class="btn btn-primary" style="margin-left: 25px; background-color: rgb(44, 117, 253);">
-            </form>
-        </div>
 
         
         <!-- Population -->
@@ -94,7 +116,7 @@
                 <div class="sidebar_heading_icon">
                     <img src="/images/people.svg">
                 </div><!--SIDEBAR_HEADING_ICON-->
-                <div class="sidebar_heading_text">Population & Demography</div><!--SIDEBAR_HEADING_TEXT-->
+                <div class="sidebar_heading_text">Population</div><!--SIDEBAR_HEADING_TEXT-->
                 <div class="clear"></div><!--CLEAR-->
             </div><!--SIDBAR_HEADING_INNER-->
         </div><!--SIDEBAR_HEADING-->
@@ -104,7 +126,7 @@
                 {{ __('Demography') }}
             </x-nav-link> --}}
             <a href="{{ route('index') }}#demography">
-                {{ __('Demography') }}
+                {{ __('Population Change') }}
             </a>
         </div><!--SIDEBAR_NAV_ITEM-->
 
@@ -122,19 +144,18 @@
                 {{ __('Demography') }}
             </x-nav-link> --}}
             <a href="{{ route('index') }}#populationPyramid">
-                {{ __('Population Pyramid') }}
+                {{ __('Population Structure') }}
             </a>
         </div><!--SIDEBAR_NAV_ITEM-->
 
-        
 
-        <!-- Household and Dwellings -->
+        <!-- Housing -->
         <div class="sidebar_heading">
         	<div class="sidebar_heading_inner">
                 <div class="sidebar_heading_icon">
                     <img src="/images/home.svg">
                 </div><!--SIDEBAR_HEADING_ICON-->
-                <div class="sidebar_heading_text">Dwellings & Tenure</div><!--SIDEBAR_HEADING_TEXT-->
+                <div class="sidebar_heading_text">Housing</div><!--SIDEBAR_HEADING_TEXT-->
                 <div class="clear"></div><!--CLEAR-->
             </div><!--SIDBAR_HEADING_INNER-->
         </div><!--SIDEBAR_HEADING-->
@@ -144,7 +165,7 @@
                 {{ __('House Dweillings') }}
             </x-nav-link> --}}
             <a href="{{ route('index') }}#housing">
-                {{ __('Household Dwellings') }}
+                {{ __('Households and Dwellings') }}
             </a>
 		</div><!--SIDEBAR_NAV_ITEM-->
 
@@ -156,6 +177,7 @@
                 {{ __('Household Tenure') }}
             </a>
 		</div><!--SIDEBAR_NAV_ITEM-->
+
 
         {{-- <!-- Economy -->
 		<div class="sidebar_heading">
@@ -186,6 +208,7 @@
             </x-nav-link>
 		</div><!--SIDEBAR_NAV_ITEM--> --}}
 
+        
         <!-- Workforce -->
         <div class="sidebar_heading">
         	<div class="sidebar_heading_inner">
@@ -196,12 +219,6 @@
                 <div class="clear"></div><!--CLEAR-->
             </div><!--SIDBAR_HEADING_INNER-->
         </div><!--SIDEBAR_HEADING-->
-
-        <div class="sidebar_nav_item">
-            <x-nav-link :href="route('industries')" :active="request()->routeIs('industries')">
-                {{ __('Industries') }}
-            </x-nav-link>
-		</div><!--SIDEBAR_NAV_ITEM-->
 
         <div class="sidebar_nav_item">
             {{-- <x-nav-link :href="route('business.index')" :active="request()->routeIs('business.index')">
@@ -231,6 +248,78 @@
             </a>
 		</div><!--SIDEBAR_NAV_ITEM-->
 
+        <!-- EDIT BAR -->
+        <div class="sidebar_heading">
+        	<div class="sidebar_heading_inner">
+                <div class="sidebar_heading_icon">
+                    <img src="/images/edit.svg">
+                </div><!--SIDEBAR_HEADING_ICON-->
+                <div class="sidebar_heading_text">Edit-bar</div><!--SIDEBAR_HEADING_TEXT-->
+                <div class="clear"></div><!--CLEAR-->
+            </div><!--SIDBAR_HEADING_INNER-->
+        </div><!--SIDEBAR_HEADING-->
+
+        <div class="sidebar_nav_item">
+            <x-nav-link :href="route('business.index')" :active="request()->routeIs('business.index')">
+                {{ __('Business') }}
+            </x-nav-link>
+        </div><!--SIDEBAR_NAV_ITEM-->
+
+        <div class="sidebar_nav_item">
+            <x-nav-link :href="route('housing_review.index')" :active="request()->routeIs('housing.index')">
+                {{ __('Dwelling') }}
+            </x-nav-link>
+		</div><!--SIDEBAR_NAV_ITEM-->
+
+        <div class="sidebar_heading">
+        	<div class="sidebar_heading_inner">
+                <div class="uploads">
+                    <div class="sidebar_heading_text">
+                        <p class="btn btn-primary" onclick="showsidebarFilePopup()">Upload File</p>
+                    </div>
+                    <div class="sidebarFilePopup" id="sidebarFilePopup">
+                        <div class="modal-header">
+                            {{-- <div class="title">Example Modal</div> --}}
+                        </div>
+                        <div class="modal-body">
+                            <form method="POST" action="{{route("dashboard.upload.post")}}" enctype="multipart/form-data">
+                                @csrf
+                                <div class="mb-3">
+                                    <input class="form-control" name="file" type="file" id="formFile" style="border: none;">
+                                </div>
+                                <input type="submit" class="btn btn-primary" style="margin-left: 25px; background-color: rgb(44, 117, 253);">
+                            </form>
+                        </div>
+                        <button onclick="hidesidebarFilePopup()" style="border: 1px solid black; background-color: lightgray;  display: block; margin: 0 auto; height:30px; width:50px;">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
     </div><!--SIDEBAR_NAV_COLUMN-->
+
+    <script>
+
+        function showsidebarPopup() {
+            document.getElementById('sidebarPopup').style.display = 'block';
+            document.getElementById('sidebarOverlay').style.display = 'block';
+        }
+
+        function hidesidebarPopup() {
+            document.getElementById('sidebarPopup').style.display = 'none';
+            document.getElementById('sidebarOverlay').style.display = 'none';
+        }
+
+        function showsidebarFilePopup() {
+            document.getElementById('sidebarFilePopup').style.display = 'block';
+            document.getElementById('sidebarOverlay').style.display = 'block';
+        }
+
+        function hidesidebarFilePopup() {
+            document.getElementById('sidebarFilePopup').style.display = 'none';
+            document.getElementById('sidebarOverlay').style.display = 'none';
+        }
+
+    </script>
     
 </aside>

@@ -21,10 +21,12 @@ class AgeGroupsChart
         // $regionId = Session::has('regionId') ? Session::get('regionId') : 91;
         $Owner = 0;
         $Renter = 0;
+        $city = null;
         $housingData = Housing::where('CSDID', $regionId)->get();
         foreach ($housingData as $housing) {
             $Owner = $housing->Owner;
             $Renter = $housing->Renter;
+            $city = $housing->CSDTxt;
         }
         $data = [$Owner, $Renter];
 
@@ -32,8 +34,10 @@ class AgeGroupsChart
 
 
         return $this->chart->pieChart()
-            ->setTitle('Household Tenure')
+            ->setTitle('Household Tenure in ' . $city)
             ->addData($data)
-            ->setLabels(['Owner', 'Renter']);
+            ->setLabels(['Owner', 'Renter'])
+            // ->setLabelsInside(true)
+            ->setDataLabels(true);
     }
 }

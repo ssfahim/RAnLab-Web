@@ -1,28 +1,43 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Dashboard;
-use App\Models\Business;
-use App\Models\AgeGender;
 use App\Models\User;
+use App\Models\Business;
+use App\Models\Demography;
+use App\Models\HousingReviewRequest;
+use App\Models\Category;
+use App\Models\Dashboard;
+use App\Models\Labour;
+use App\Models\HousingReview;
+use App\Models\AgeGender;
+use App\Models\Housing;
 use App\Charts\AgeGroupsChart;
+use App\Charts\UserHousingChart;
 use App\Charts\AgeCharacterChart;
+use App\Charts\UserAgeCharacterChart;
 use App\Charts\LabourEducationPieChart;
+use App\Charts\UserLabourEducationPieChart;
 use App\Charts\EmploymentByOccupationBarChart;
+use App\Charts\UserEmploymentByOccupationBarChart;
 use Illuminate\Http\Request;
 use ArielMejiaDev\LarapexCharts\LarapexChart;
+use Auth;
+use Date;
 use Session;
 
 class DashboardController extends Controller
 {
 
     public function index(Request $request, LarapexChart $chart, 
-    AgeGroupsChart $ageChart, 
-    LabourEducationPieChart $labourEducation, 
-    EmploymentByOccupationBarChart $EmploymentByOccupationBarChart, 
-    AgeCharacterChart $AgeCharacterChart)
-    {
-        $regionId = Session::has('regionId') ? Session::get('regionId') : 91;
+        AgeGroupsChart $ageChart, // Here ageChart has Housing data
+        LabourEducationPieChart $labourEducation, 
+        EmploymentByOccupationBarChart $EmploymentByOccupationBarChart, 
+        AgeCharacterChart $AgeCharacterChart,
+        UserAgeCharacterChart $UserAgeCharacterChart,
+        UserHousingChart $UserHousingChart,
+        UserLabourEducationPieChart $UserLabourEducationPieChart,
+        UserEmploymentByOccupationBarChart $UserEmploymentByOccupationBarChart){
+        $regionId = Session::has('regionId') ? Session::get('regionId') : auth()->user()->city;
 
         $regionMap = [
             304 => 'BaieVerte',
@@ -66,7 +81,7 @@ class DashboardController extends Controller
 
         if(auth()->user()-> email === 'test@test.com'){
             $regionId = Session::has('regionId') ? Session::get('regionId') : 91;
-            $pdfFileName = $regionMap[$regionId] ?? null;
+            $pdfFileName = $regionMap[$regionId] ?? $regionMap[188];
         }
         else{
             $regionId = auth()->user()->city;
@@ -85,7 +100,7 @@ class DashboardController extends Controller
 
         if($regionId == 0){
             $regionId = 91;
-            $regionData = AgeGender::where('CSDID', $regionId)->get();
+            $regionData = AgeGender::where('CSDID', auth()->user()->city)->get();
             // foreach($regionData as $city){
             //     $ageData = $city->Age_groups;
             //     $menData = $city->Men;
@@ -93,7 +108,7 @@ class DashboardController extends Controller
             // }
         }
         else{
-            $regionData = AgeGender::where('CSDID', $regionId)->get();
+            $regionData = AgeGender::where('CSDID', auth()->user()->city)->get();
             // foreach($regionData as $city){
             //     $ageData = $city->Age_groups;
             //     $menData = $city->Men;
@@ -111,6 +126,32 @@ class DashboardController extends Controller
         $Age_distribution_0_to_14 = 0;
         $Age_distribution_15_to_64 = 0;
         $Age_distribution_65_years_and_over = 0;
+        $City = null;
+
+        $UserPopulation_2021 = 0;
+        $UserPopulation_2016 = 0;
+        $UserPopulation_percentage_change_2016_to_2021 = 0;
+        $UserTotal_private_dwellings= 0;
+        $UserPrivate_dwellings_occupied_by_usual_residents = 0;
+        $UserPrivate_dwellings_not_occupied_by_usual_residents = 0;
+        $UserAge_distribution_0_to_14 = 0;
+        $UserAge_distribution_15_to_64 = 0;
+        $UserAge_distribution_65_years_and_over = 0;
+
+        $UsercityData = Dashboard::where('CSDID', auth()->user()->city)->get();
+        $UserCity = null;
+        foreach ($UsercityData as $city) {
+            $UserPopulation_2021 = $city->Population_2021;
+            $UserPopulation_2016 = $city->Population_2016;
+            $UserPopulation_percentage_change_2016_to_2021 = $city->Population_percentage_change_2016_to_2021;
+            $UserTotal_private_dwellings = $city->Total_private_dwellings;
+            $UserPrivate_dwellings_occupied_by_usual_residents = $city->Private_dwellings_occupied_by_usual_residents;
+            $UserPrivate_dwellings_not_occupied_by_usual_residents = $city->Private_dwellings_not_occupied_by_usual_residents;
+            $UserAge_distribution_0_to_14 = $city->Age_distribution_0_to_14;
+            $UserAge_distribution_15_to_64 = $city->Age_distribution_15_to_64;
+            $UserAge_distribution_65_years_and_over = $city->Age_distribution_65_years_and_over;
+            $UserCity = $city -> CSDTxt;
+        }
 
         if($regionId == 0){
             $regionId = 91;
@@ -125,6 +166,7 @@ class DashboardController extends Controller
                 $Age_distribution_0_to_14 = $city->Age_distribution_0_to_14;
                 $Age_distribution_15_to_64 = $city->Age_distribution_15_to_64;
                 $Age_distribution_65_years_and_over = $city->Age_distribution_65_years_and_over;
+                $City = $city -> CSDTxt;
             }
         }
         else {
@@ -139,6 +181,7 @@ class DashboardController extends Controller
                 $Age_distribution_0_to_14 = $city->Age_distribution_0_to_14;
                 $Age_distribution_15_to_64 = $city->Age_distribution_15_to_64;
                 $Age_distribution_65_years_and_over = $city->Age_distribution_65_years_and_over;
+                $City = $city -> CSDTxt;
             }
         }
 
@@ -171,7 +214,6 @@ class DashboardController extends Controller
         } else {
             $birthChart = null;
         }
-
         // dd($regionId);
 
         return view('dashboard', 
@@ -181,10 +223,14 @@ class DashboardController extends Controller
                 // 'womenData' => $womenData,
                 'showSpecificPart' => $showSpecificPart,
                 'pdfFileName' => $pdfFileName,
-                'AgeCharacterChart' => $AgeCharacterChart,
+                'AgeCharacterChart' => $AgeCharacterChart->build($regionId),
+                'UserAgeCharacterChart' => $UserAgeCharacterChart->build($regionId),
                 'EmploymentByOccupationBarChart' => $EmploymentByOccupationBarChart->build($regionId),
-                'ageChart' => $ageChart->build($regionId),
+                'UserEmploymentByOccupationBarChart' => $UserEmploymentByOccupationBarChart->build($regionId),
+                'ageChart' => $ageChart->build($regionId), // Here ageChart has Housing data
+                'UserHousingChart' => $UserHousingChart->build($regionId),
                 'labourEducation' => $labourEducation->build($regionId),
+                'UserLabourEducationPieChart' => $UserLabourEducationPieChart->build($regionId),
                 'regionData' => $regionData,
                 'data' => $data,
                 'Age_distribution_65_years_and_over' => $Age_distribution_65_years_and_over,
@@ -196,6 +242,17 @@ class DashboardController extends Controller
                 'Population_percentage_change_2016_to_2021' => $Population_percentage_change_2016_to_2021,
                 'Population_2016' => $Population_2016,
                 'Population_2021' => $Population_2021,
+                'UserAge_distribution_65_years_and_over' => $UserAge_distribution_65_years_and_over,
+                'UserAge_distribution_15_to_64' => $UserAge_distribution_15_to_64,
+                'UserAge_distribution_0_to_14' => $UserAge_distribution_0_to_14,
+                'UserPrivate_dwellings_occupied_by_usual_residents' => $UserPrivate_dwellings_occupied_by_usual_residents,
+                'UserPrivate_dwellings_not_occupied_by_usual_residents' => $UserPrivate_dwellings_not_occupied_by_usual_residents,
+                'UserTotal_private_dwellings' => $UserTotal_private_dwellings,
+                'UserPopulation_percentage_change_2016_to_2021' => $UserPopulation_percentage_change_2016_to_2021,
+                'UserPopulation_2016' => $UserPopulation_2016,
+                'UserPopulation_2021' => $UserPopulation_2021,
+                'City' => $City,
+                'UserCity' => $UserCity,
                 'cityData' => $cityData, 
                 'selectedCity' => $selectedCity, 
                 'birthChart'=> $birthChart,
@@ -203,46 +260,31 @@ class DashboardController extends Controller
             ]);
     }
 
-    function upload(){
-        return view("upload");
-    }
-
-    function uploadPost(Request $request){
-        $file = $request->file("file");
-        echo "File Name: " .$file->getClientOriginalName();
-        echo '<br>';
-        echo "File Extension: " .$file->getClientOriginalExtension();
-
-        $destinationPath = "userUploads";
-        if($file-> move($destinationPath, $file->getClientOriginalName())){
-            echo "File Upload Success";
-        }
-        else{
-            echo "Failed to upload file";
-        }
-    }
-    
-    // public function index(AgeGroupsChart $ageChart, PopulationChangeChart $popChart, BirthsDeathsChart $birthChart)
+    // public function index(Request $request, LarapexChart $chart, 
+    // AgeGroupsChart $ageChart, 
+    // LabourEducationPieChart $labourEducation, 
+    // EmploymentByOccupationBarChart $EmploymentByOccupationBarChart, 
+    // AgeCharacterChart $AgeCharacterChart)
     // {
-    //     $regionId = Session::has('regionId') ? Session::get('regionId')%3 : 0;
+    //     $regionId = Session::has('regionId') ? Session::get('regionId') : 91;
+    //     $labourData = Labour::where('CSDID', $regionId)->get();
+    //     dd($labourData);
 
-    //     return view('dashboard',
+    //     return view('industries', 
     //         [
     //             'ageChart' => $ageChart->build($regionId),
-    //             'popChart' => $popChart->build($regionId),
-    //             'birthChart' => $birthChart->build($regionId),
+    //             'labourEducation' => $labourEducation->build($regionId),
+    //             'AgeCharacterChart' => $AgeCharacterChart->build($regionId),
+    //             'EmploymentByOccupationBarChart' => $EmploymentByOccupationBarChart->build($regionId),
+    //             'businessData' => $businessData,
+    //             'demographyData' => $demographyData,
+    //             'housingReviewRequestData' => $housingReviewRequestData,
+    //             'categoryData' => $categoryData,
+    //             'labourData' => $labourData,
+    //             'housingReviewData' => $housingReviewData,
+    //             'ageGenderData' => $ageGenderData,
+    //             'housingData' => $housingData,
+
     //         ]);
     // }
-
-    // public function dashboard(int $regionId, AgeGroupsChart $ageChart, PopulationChangeChart $popChart, BirthsDeathsChart $birthChart)
-    // {
-    //     return view('dashboard',
-    //         [
-    //             'ageChart' => $ageChart->build($regionId%3),
-    //             'popChart' => $popChart->build($regionId%3),
-    //             'birthChart' => $birthChart->build($regionId%3),
-    //         ]);
-    // }
-
-    
 }

@@ -5,6 +5,7 @@
 // use App\Http\Controllers\ClientBusinessController;
 use App\Http\Controllers\BusinessController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\CustomDashController;
 use App\Http\Controllers\DemographyController;
 use App\Http\Controllers\HousingController;
 use App\Http\Controllers\HousingReviewController;
@@ -104,6 +105,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     
     Route::get('/', [DashboardController::class,'index', 'upload'])->name('index');
     Route::get('/dashboard', [DashboardController::class,'index'])->name('index');
+    
 
     Route::prefix('dashboard')->group(function () {
         Route::get('/upload', [DashboardController::class, 'upload'])->name('dashboard.upload');
@@ -114,7 +116,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::resource('demography', DemographyController::class)
         ->only(['index']);
-
+        
+    Route::get('/download-population-csv', [CustomDashController::class, 'downloadCsv'])->name('download-population-csv');
     // Route::get('/housing', function(){
     //         return view('housing');
     //     })->name('housing');
@@ -126,6 +129,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('housing_review/accept/{id}', [HousingReviewController::class, 'accept']);
     Route::get('housing_review/edit_data/{id}', [HousingReviewController::class, 'edit_data']);
     Route::put('housing_review/update_data/{id}', [HousingReviewController::class, 'update_data']);
+    Route::get('/download-housing-csv', [HousingController::class, 'downloadCsv'])->name('download-housing-csv');
     // ->only(['index','edit','store','update'])
 
     Route::get('/incomeclass', function(){
@@ -140,9 +144,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
             return view('consumer-spending');
         })->name('spending');
 
-    Route::get('/industries', function(){
-            return view('industries');
-        })->name('industries');
+    // Route::get('/industries', function(){
+    //         return view('industries');
+    //     })->name('industries');
+    Route::get('/customDashboard', [CustomDashController::class,'index'])->name('customDashboard.index');
 
     Route::resource('business', BusinessController::class)
         ->only(['index']);
@@ -161,6 +166,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('/laboursuppply', LabourController::class)->only(['index']);
 
     Route::resource('/labourdemand', LabourController::class)->only(['index']);
+    Route::get('/download-labour-csv', [LabourController::class, 'downloadCsv'])->name('download-labour-csv');
     
     Route::post('/review/amend/{review}', [ReviewController::class, 'amend']);
     // Route::resource('/review', ReviewController::class)

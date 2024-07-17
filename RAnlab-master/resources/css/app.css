@@ -4,12 +4,24 @@
 
 /********** CUSTOM TO MOVE **********/
 
-body  {background-color: #FAFAFA;}
+
+
+body  {background-color: #FAFAFA;
+	font-family: 'Avenir', sans-serif;}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: 'Avenir', sans-serif;
+}
+
+/* Apply Avenir font to other elements */
+p, .some-class {
+	font-family: 'Avenir', sans-serif;
+}
 
 .clear  {clear: both;}
 
 .page_container  {
-	width: 100$;
+	width: 100%;
 	height: auto;
 	padding-top: 65px;
 	position: relative;
@@ -93,7 +105,7 @@ body  {background-color: #FAFAFA;}
 
 .register_submit_split .form_row_split:nth-child(2) .proceed_button  {float: right;}
 
-.proceed_button  {}
+/* .proceed_button  {} */
 
 
 
@@ -115,24 +127,35 @@ body  {background-color: #FAFAFA;}
 
 .nav_container  {
 	width: 100%;
-	height: 65px;
-	position: fixed;
-	top: 0;
-	left: 0;
-	background-color: #C7C7C7;
-	color: #000000;
-	padding: 12px 0px;
-	z-index: 9;
+    height: 65px;
+    position: fixed;
+    top: 0;
+    left: 12;
+    background-color: #1E22AA;
+    color: #FFFFFF;
+    padding: 12px 0;
+    z-index: 9;
 }
 
 #nav_left  {
 	width: 20%;
 	height: auto;
 	float: left;
-	font-size: 18px;
+	font-size: 20px;
 	font-weight: 700;
 	padding-top: 7px;
 	padding-left: 30px;
+	/* background-color: white; */
+}
+.logo-img {
+    width: 150px; /* Adjust the width as needed */
+    height: auto; /* Maintain aspect ratio */
+    display: block; /* Ensure the image behaves as a block element */
+    max-height: 100%; /* Ensure the image doesn't exceed its container's height */
+    max-width: 100%; /* Ensure the image doesn't exceed its container's width */
+	margin-top: 0%;
+	padding: 0%;
+	border: none;
 }
 
 #nav_right  {
@@ -198,15 +221,16 @@ body  {background-color: #FAFAFA;}
 
 .sidebar_container  {
 	/* test*/
-	width: 20%;
+	width: 19%;
 	height: 100%;
 	float: left;
 	position: fixed;
 	top: 0;
 	left: 0;
 	padding-top: 65px;
-	background-color: #C7C7C7;
+	/* background-color: #1E22AA; */
 	color: #000000;
+	/* overflow-y: auto; */
 }
 
 
@@ -259,8 +283,9 @@ body  {background-color: #FAFAFA;}
 	width: 80%;
 	height: auto;
 	float: left;
-	font-weight: 500;
+	/* font-weight: 500; */
 	color: #000000;
+	font-weight: bold;
 }
 
 .sidebar_nav_item  {
@@ -492,13 +517,13 @@ body  {background-color: #FAFAFA;}
 	margin-bottom: 40px;
 }
 
-.tbl_pending_requests  {}
+/* .tbl_pending_requests  {} */
 
 .tbl_pending_requests td  {cursor: pointer;}
 
 .tbl_pending_requests tr:hover  {background-color: #ffffff;}
 
-.tbl_reviewed_requests  {}
+/* .tbl_reviewed_requests  {} */
 
 .review_item  {
 	width: 100%;
@@ -532,4 +557,67 @@ body  {background-color: #FAFAFA;}
 .review_body  {
 	width: 100%;
 	height: auto;
+}
+
+.axis.y.left .domain {
+	display: none; /* Hide the vertical line */
+}
+
+
+/* Popup for sidebar */
+.sidebarPopup {
+	position:relative;
+	align-items:start;
+	display: none;
+	left: 0;
+	top: 0;
+	margin: 0%;
+	border: 0px;
+}
+
+.sidebarFilePopup {
+	position:relative;
+	align-items:start;
+	display: none;
+	left: 0;
+	top: 0;
+	margin: 0%;
+	border: 0px;
+}
+
+.modal-header {
+	padding: 15px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border-bottom: 1px solid black;
+}
+
+.modal-header .title {
+	font-size: 1.25rem;
+	font-weight: bold;
+}
+
+.modal-header .close-button {
+	cursor: pointer;
+	border: none;
+	outline: none;
+	background: none;
+	font-size: 1.25rem;
+	font-weight: bold;
+}
+
+.modal-body {
+	padding: 15px;
+}
+
+#sidebarOverlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	display: none;
+	z-index: 99;
 }

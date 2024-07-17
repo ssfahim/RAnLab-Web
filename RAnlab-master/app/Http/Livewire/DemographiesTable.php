@@ -19,36 +19,82 @@ class DemographiesTable extends Table
         // return view('livewire.demography-table-header');
 	}
 
-    public function query(): Builder
-    {
+    public function query(): Builder{
         $query = Dashboard::query();
 
         // Determine regionId based on session or user authentication
-        $regionId = Session::has('regionId') ? Session::get('regionId') : null;
+        $regionIdSession = Session::has('regionId') ? Session::get('regionId') : null;
+        $regionIdUser = auth()->check() ? auth()->user()->city : null;
 
-        if (auth()->check()) {
-            if (auth()->user()->email === 'test@test.com') {
-                $regionId = 91;
-                if(Session::has('regionId') && Session::get('regionId') != 0)
-                {
-                    $query = $query->where('CSDID',Session::get('regionId'));
-                }
-                $query = $query->orderByRaw('CASE WHEN CSDID=1 THEN 0 ELSE 1 END ASC')
-                    ->orderBy('CSDTxt');
-            } else {
-                $regionId = auth()->user()->city;
-                if ($regionId !== null && $regionId != 0) {
-                    $query = $query->where('CSDID', $regionId);
-                }
-        
-                // Order the results
-                $query = $query->orderByRaw('CASE WHEN CSDID=1 THEN 0 ELSE 1 END ASC')
-                            ->orderBy('CSDTxt');
+        // Special handling for test user
+        if (auth()->check() && auth()->user()->email === 'test@test.com') {
+            $regionIdSession = 91;
+            if (Session::has('regionId') && Session::get('regionId') != 0) {
+                $query = $query->where('CSDID', Session::get('regionId'));
             }
+            $query = $query->orderByRaw('CASE WHEN CSDID=1 THEN 0 ELSE 1 END ASC')
+                        ->orderBy('CSDTxt');
+        } else {
+            // Collect queries based on session and user city
+            $queries = [];
+
+            // Query based on session regionId
+            if ($regionIdSession !== null && $regionIdSession != 0) {
+                $sessionQuery = Dashboard::where('CSDID', $regionIdSession);
+                $queries[] = $sessionQuery;
+            }
+
+            // Query based on user city
+            if ($regionIdUser !== null && $regionIdUser != 0) {
+                $userQuery = Dashboard::where('CSDID', $regionIdUser);
+                $queries[] = $userQuery;
+            }
+
+            // Combine the queries using union
+            if (count($queries) > 0) {
+                $combinedQuery = array_shift($queries); // Get the first query
+                foreach ($queries as $q) {
+                    $combinedQuery = $combinedQuery->union($q);
+                }
+                $query = $combinedQuery;
+            }
+
+            // Order the results
+            $query = $query->orderByRaw('CASE WHEN CSDID=1 THEN 0 ELSE 1 END ASC')
+                        ->orderBy('CSDTxt');
         }
-        
+
         return $query;
     }
+
+
+    // public function query(): Builder{
+    //     $query = Dashboard::query();
+
+    //     $regionId = Session::has('regionId') ? Session::get('regionId') : null;
+
+    //     if (auth()->check()) {
+    //         if (auth()->user()->email === 'test@test.com') {
+    //             $regionId = 91;
+    //             if(Session::has('regionId') && Session::get('regionId') != 0)
+    //             {
+    //                 $query = $query->where('CSDID',Session::get('regionId'));
+    //             }
+    //             $query = $query->orderByRaw('CASE WHEN CSDID=1 THEN 0 ELSE 1 END ASC')
+    //                 ->orderBy('CSDTxt');
+    //         } else {
+    //             $regionId = auth()->user()->city;
+    //             if ($regionId !== null && $regionId != 0) {
+    //                 $query = $query->where('CSDID', $regionId);
+    //             }
+        
+    //             $query = $query->orderByRaw('CASE WHEN CSDID=1 THEN 0 ELSE 1 END ASC')
+    //                         ->orderBy('CSDTxt');
+    //         }
+    //     }
+        
+    //     return $query;
+    // }
 
 
 	public function columns(): array

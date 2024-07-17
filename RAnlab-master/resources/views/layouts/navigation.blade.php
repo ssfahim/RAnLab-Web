@@ -1,5 +1,5 @@
 @php
-    use App\Models\Category;
+    use App\Models\Category; // Category represents review request for business data
     use App\Models\HousingReviewRequest;
     use App\Models\Dashboard;
     use App\Models\Demography;
@@ -12,10 +12,11 @@
 
     <div id="nav_left">
         <!-- Logo -->
-        <div class="shrink-0 flex items-center">
-            <a href="{{ route('index') }}">
+        <div class="shrink-0 items-center">
+            <a href="{{ route('index') }}" style="color:white;">
             {{-- <a href="{{ route('index', ['city' => "St. John's"]) }}"> --}}
                 RAnLab
+                {{-- <img src="images/logo.svg" alt="Logo" class="logo-img"> --}}
             </a>
         </div>
     </div><!--NAV_LEFT-->
@@ -66,35 +67,40 @@
                 @if(auth()->user()->email == "test@test.com")
                     <x-dropdown align="right" width="48">
                         <x-slot name="trigger">
-                            <button class="nav_button">
-                                <div class="nav_button_label">
-                                    {{-- @if(auth()->user()->email == "test@test.com") --}}
-                                        <img src="/images/bell.svg">
-                                        @if($categoryCount > 0)
-                                            <div class="red_dot" 
-                                            style="width: 15px;
-                                            height: 15px;
-                                            background-color: red;
-                                            border-radius: 50%;
-                                            position: absolute;
-                                            top: 5px;
-                                            right:17px;"></div>
-                                        @endif
-                                    {{-- @else
-                                        <img src="/images/suggestion.svg">
-                                    @endif --}}
-                                </div>
-
-                                <div class="nav_button_arrow">
-                                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                    </svg>
-                                </div>
-                            </button>
+                            <button type="button" class="icon-button" style="position: relative;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                width: 50px;
+                                height: 50px;
+                                color: #333333;
+                                background: #dddddd;
+                                border: none;
+                                outline: none;
+                                border-radius: 50%;
+                                cursor:pointer;">
+                                @if ($categoryCount > 0)
+                                <span class="material-icons">notifications</span>
+                                <span class="icon-button__badge" style="position: absolute;
+                                top: -10px;
+                                right: -10px;
+                                width: 25px;
+                                height: 25px;
+                                background: red;
+                                color: #ffffff;
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                                border-radius: 50%;">
+                                {{ $categoryCount }}        
+                                </span>
+                                @endif
+                              </button>
+                            
                         </x-slot>
 
                         {{-- @if(auth()->user()->email == "test@test.com") --}}
-                        <x-slot name="content">
+                        <x-slot name="content" style="font-size: 2%">
                             <x-dropdown-link :href="route('review.index')">
                                 {{ __('Show All') }}
                                 @if ($categoryCount > 0)
@@ -105,11 +111,10 @@
                                         background-color: red;
                                         color: white;
                                         text-align: center;
-                                        line-height: 20px;
+                                        /* line-height: 20px; */
                                         border-radius: 50%;
-                                        margin-left: 65px; /* Adjust the margin as needed */
-                                    
-                                    ">{{ $categoryCount }}</span>
+                                        margin-left: 65px;
+                                    "></span>
                                 @endif
                             </x-dropdown-link>
 

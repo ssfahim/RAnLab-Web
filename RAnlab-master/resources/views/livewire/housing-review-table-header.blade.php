@@ -49,7 +49,7 @@
                         <div class="modal-content">
                             
                             <div class="modal-header">
-                                <b style="text-align: right;"> <h3>Welcome, RAnLab!!</h3></b>
+                                <b style="text-align: right;"> <h3>Welcome to RAnLab Data Portal</h3></b>
                                 {{-- <h5 class="modal-title" id="demoModalLabel">Modal Example - Websolutionstuff</h5> --}}
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>

@@ -7,11 +7,21 @@
 
         {{-- <title>{{ config('app.name', 'RAnLab') }}</title> --}}
         <title>RAnLab Data Portal</title>
-
+        
         <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
+        <style>
+            @font-face {
+                font-family: 'Avenir';
+                src: url('/fonts/Avenir.ttc') format('truetype');
+                /* Add additional src definitions for other font file formats if available */
+            }
+        </style>
+
+        {{-- <link rel="preconnect" href="https://fonts.bunny.net"> --}}
+        {{-- <link href="{{ asset('css/custom.css') }}" rel="stylesheet"> --}}
         {{-- <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
         <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css"> --}}
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <script src="//cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -26,14 +36,15 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans antialiased">
+    <body class="font-sans antialiased" style="font-family: 'Avenir';">
         <div class="page_container min-h-screen bg-gray-100">
 
             <div class="nav_container">
+                <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
             	@include('layouts.navigation')
 			</div><!--NAV_CONTAINER-->
 
-            <div class="sidebar_container">
+            <div class="sidebar_container" style="font-family: 'Avenir';background-color: #FFFFFF; overflow-y:auto;">
 	            @include('layouts.sidebar')
 			</div><!--SIDEBAR_CONTAINER-->
 
